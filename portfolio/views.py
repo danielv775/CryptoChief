@@ -2,9 +2,46 @@ from django.shortcuts import render, redirect
 from .models import Position
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
+import requests, json
 # Create your views here.
 
 def index(request):
+    #api_request = 'https://min-api.cryptocompare.com/data/pricemultifull?fsyms=BTC,ETH,ZEC,XLM&tsyms=USD'
+    #crypto_home_data = requests.get(api_request).json()['RAW']
+    api_request = 'https://min-api.cryptocompare.com/data/subsWatchlist?fsyms=BTC,ETH,XLM,ZECH&tsym=USD'
+    crypto_home_data = requests.get(api_request).json()
+    print(crypto_home_data)
+    '''
+    # Bitcoin
+    btc = {
+        'CHANGE24HOUR': crypto_home_data['BTC']['USD']['CHANGE24HOUR'],
+        'CHANGEPCT24HOUR': crypto_home_data['BTC']['USD']['CHANGEPCT24HOUR'],
+        'PRICE': crypto_home_data['BTC']['USD']['PRICE'],
+        'MKTCAP': crypto_home_data['BTC']['USD']['MKTCAP']
+    }
+    # Ethereum
+    eth = {
+        'CHANGE24HOUR': crypto_home_data['ETH']['USD']['CHANGE24HOUR'],
+        'CHANGEPCT24HOUR': crypto_home_data['ETH']['USD']['CHANGEPCT24HOUR'],
+        'PRICE': crypto_home_data['ETH']['USD']['PRICE'],
+        'MKTCAP': crypto_home_data['ETH']['USD']['MKTCAP']
+    }
+    # Stellar Lumens
+    xlm = {
+        'CHANGE24HOUR': crypto_home_data['XLM']['USD']['CHANGE24HOUR'],
+        'CHANGEPCT24HOUR': crypto_home_data['XLM']['USD']['CHANGEPCT24HOUR'],
+        'PRICE': crypto_home_data['XLM']['USD']['PRICE'],
+        'MKTCAP': crypto_home_data['XLM']['USD']['MKTCAP']
+    }
+    # Zcash
+    zec = {
+        'CHANGE24HOUR': crypto_home_data['ZEC']['USD']['CHANGE24HOUR'],
+        'CHANGEPCT24HOUR': crypto_home_data['ZEC']['USD']['CHANGEPCT24HOUR'],
+        'PRICE': crypto_home_data['ZEC']['USD']['PRICE'],
+        'MKTCAP': crypto_home_data['ZEC']['USD']['MKTCAP']
+    }
+    '''
+
     if request.user.is_authenticated:
         context = {
             'user': request.user

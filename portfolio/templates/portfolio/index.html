@@ -4,6 +4,11 @@
     CryptoChief Home
 {% endblock %}
 
+{% block javascript %}
+    {% load static %}
+    <script type="text/javascript" src="{% static 'portfolio/index.js' %}"></script>
+{% endblock %}
+
 {% block body %}
     <h1>Manage Your Crypto Assets</h1>
 
@@ -28,5 +33,22 @@
             </div>
         </form>
     {% endif %}
+
+    <div class="container">
+        <div class="row center-row">
+            <div class="col-md">
+                BTC
+            </div>
+            <div class="col-md">
+                ETH
+            </div>
+            <div class="col-md">
+                XLM
+            </div>
+            <div class="col-md">
+                ZEC
+            </div>
+        </div>
+    </div>
 
 {% endblock %}
