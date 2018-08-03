@@ -1,0 +1,16 @@
+{% extends "portfolio/layout.html" %}
+
+{% block title %}
+    CryptoChief Portfolio
+{% endblock %}
+
+{% block body %}
+    <h1>Your Crypto Assets</h1>
+    <br>
+    <ul>
+       {% for position in positions %}
+           <li>{{position}}</li>
+       {% endfor %}
+    </ul>
+
+{% endblock %}
