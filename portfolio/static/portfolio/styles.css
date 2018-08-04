@@ -23,4 +23,15 @@ h1 {
   margin-top: 15px;
   margin-left: 15px; }
 
+.invalid {
+  color: red; }
+
+.portfolio-container {
+  margin-left: 25px;
+  margin-right: 25px; }
+  .portfolio-container #portfolio-view {
+    margin-top: 25%; }
+    .portfolio-container #portfolio-view #portfolio-header {
+      text-align: center; }
+
 /*# sourceMappingURL=styles.css.map */

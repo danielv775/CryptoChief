@@ -8,6 +8,9 @@
     <h1>Log In</h1>
 
     <form id="login-form" class="auth-form" action="{% url 'login' %}" method="post">
+        <div class="invalid">
+            {{message}}
+        </div>
         {% csrf_token %}
         <div class="form-group">
             <label class="field-label">Username</label>

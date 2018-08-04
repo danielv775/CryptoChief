@@ -1,6 +1,4 @@
 
-//const template_price = Handlebars.compile(document.querySelector('#load-price').innerHTML);
-
 document.addEventListener('DOMContentLoaded', () => {
 
     function update_crypto_data(token_string, token_data) {

@@ -7,9 +7,6 @@
 {% block javascript %}
     {% load static %}
     <script type="text/javascript" src="{% static 'portfolio/index.js' %}"></script>
-    <script id="load-price" type="text/template">
-
-    </script>
 {% endblock %}
 
 {% block body %}
@@ -37,6 +34,13 @@
             </div>
         </form>
     {% endif %}
+
+    <form action="{% url 'portfolio' %}" method="post">
+        {% csrf_token %}
+        <div id="portfolio-button-container" class="button-container-medium">
+            <button id="portfolio-button" type="submit" name="Portfolio" class="btn btn-primary">My Portfolio</button>
+        </div>
+    </form>
 
     <h1 id="home-intro" class="heading">Manage Your Crypto Assets</h1>
 

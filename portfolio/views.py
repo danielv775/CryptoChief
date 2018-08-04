@@ -71,10 +71,25 @@ def index(request):
         return JsonResponse(crypto_data)
 
 def portfolio(request):
-    context = {
-        'positions': Position.objects.all()
-    }
-    return render(request, 'portfolio/portfolio.html', context)
+    if request.user.is_authenticated:
+        portfolio = Position.objects.filter(user=request.user)
+        portfolio_to_send = {}
+        crypto_codes = ''
+        for position in portfolio:
+            crypto_codes += position.crypto.code + ','
+            key = f'{position.crypto.code}-{position.id}'
+            portfolio_to_send[key] = {'name': position.crypto.name, 'quantity': position.quantity }
+
+        print(portfolio_to_send)
+        api_request = f'https://min-api.cryptocompare.com/data/pricemultifull?fsyms={crypto_codes}&tsyms=USD'
+        crypto_portfolio_data = requests.get(api_request).json()['RAW']
+
+        context = {
+            'portfolio': portfolio
+        }
+        return render(request, 'portfolio/portfolio.html', context)
+    else:
+        return redirect('login')
 
 def login_view(request):
     if not request.user.is_authenticated:
@@ -106,7 +121,7 @@ def signup(request):
                 return render(request, 'portfolio/signup.html', {'message': "Invalid Credentials"})
         except Exception as e:
             print(e)
-            return render(request, 'portfolio/signup.html')
+            return render(request, 'portfolio/signup.html', {'message': "Invalid Credentials"})
     else:
         return redirect('portfolio')
 

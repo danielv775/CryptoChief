@@ -4,13 +4,47 @@
     CryptoChief Portfolio
 {% endblock %}
 
+{% block javascript %}
+    {% load static %}
+    <script id="load-position" type="text/template">
+        <tr>
+          <th></th>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+    </script>
+{% endblock %}
+
 {% block body %}
     <h1>Your Crypto Assets</h1>
-    <br>
-    <ul>
-       {% for position in positions %}
-           <li>{{position}}</li>
-       {% endfor %}
-    </ul>
+    <div class="portfolio-container">
+        <table id="portfolio-view" class="table">
+            <thead id="portfolio-header">
+                <tr>
+                    <th>Asset</th>
+                    <th>Quantity</th>
+                    <th>USD Value</th>
+                    <th>BTC Value</th>
+                    <th>24h Percent Change</th>
+                    <th>24h USD Change</th>
+                    <th>Total Percent Change</th>
+                </tr>
+            </thead>
+            <tbody id="portfolio-body">
+                {% for position in portfolio %}
+                    <tr>
+                        <th>{{position.crypto.name}} ({{position.crypto.code}})</th>
+                        <td>{{position.quantity}}</td>
+                        <td>$USD</td>
+                        <td>BTC</td>
+                        <td>24h % Change</td>
+                        <td>24h $ Change</td>
+                        <td>Total % Change</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
 
 {% endblock %}
