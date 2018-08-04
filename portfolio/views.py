@@ -72,18 +72,27 @@ def index(request):
 
 def portfolio(request):
     if request.user.is_authenticated:
+
+        # Construct Portfolio from a User's Positions
         portfolio = Position.objects.filter(user=request.user)
         portfolio_to_send = {}
         crypto_codes = ''
+
+        # Prepare Crypto code string for API GET request and initialize actual data structure to be sent to
+        # portfolio page--portfolio_to_send
         for position in portfolio:
             crypto_codes += position.crypto.code + ','
             key = f'{position.crypto.code}-{position.id}'
             portfolio_to_send[key] = {'name': position.crypto.name, 'quantity': position.quantity }
 
-        print(portfolio_to_send)
+        # GET live data
         api_request = f'https://min-api.cryptocompare.com/data/pricemultifull?fsyms={crypto_codes}&tsyms=USD'
         crypto_portfolio_data = requests.get(api_request).json()['RAW']
 
+        # Fill portfolio_to_send with live data from API GET request
+        for position in portfolio_to_send:
+            portfolio_to_send[position]['price'] = crypto_portfolio_data[position.split('-')[0]]['USD']['PRICE']
+        print(portfolio_to_send)
         context = {
             'portfolio': portfolio
         }
