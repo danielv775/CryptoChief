@@ -7,7 +7,20 @@ h1 {
   margin-left: auto;
   margin-right: auto; }
 
-.center-row {
+.home-feed {
+  text-align: center;
+  margin-top: 10%; }
+  .home-feed .home-price {
+    list-style-type: none; }
+    .home-feed .home-price .home-data {
+      margin-top: 10px; }
+
+#home-intro {
+  margin-top: 5%;
   text-align: center; }
+
+#project-name {
+  margin-top: 15px;
+  margin-left: 15px; }
 
 /*# sourceMappingURL=styles.css.map */

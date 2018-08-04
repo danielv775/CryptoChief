@@ -3,55 +3,72 @@ from .models import Position
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 import requests, json
+from django.http import JsonResponse
+from decimal import Decimal
 # Create your views here.
 
 def index(request):
-    #api_request = 'https://min-api.cryptocompare.com/data/pricemultifull?fsyms=BTC,ETH,ZEC,XLM&tsyms=USD'
-    #crypto_home_data = requests.get(api_request).json()['RAW']
-    api_request = 'https://min-api.cryptocompare.com/data/subsWatchlist?fsyms=BTC,ETH,XLM,ZECH&tsym=USD'
-    crypto_home_data = requests.get(api_request).json()
-    print(crypto_home_data)
-    '''
+
+    api_request = 'https://min-api.cryptocompare.com/data/pricemultifull?fsyms=BTC,ETH,ZEC,XLM&tsyms=USD'
+    crypto_home_data = requests.get(api_request).json()['RAW']
+
     # Bitcoin
     btc = {
-        'CHANGE24HOUR': crypto_home_data['BTC']['USD']['CHANGE24HOUR'],
-        'CHANGEPCT24HOUR': crypto_home_data['BTC']['USD']['CHANGEPCT24HOUR'],
+        'CHANGE24HOUR': round(crypto_home_data['BTC']['USD']['CHANGE24HOUR'], 2),
+        'CHANGEPCT24HOUR': round(crypto_home_data['BTC']['USD']['CHANGEPCT24HOUR'], 2),
         'PRICE': crypto_home_data['BTC']['USD']['PRICE'],
-        'MKTCAP': crypto_home_data['BTC']['USD']['MKTCAP']
+        'MKTCAP': '{:,}'.format(int(crypto_home_data['BTC']['USD']['MKTCAP']))
     }
     # Ethereum
     eth = {
-        'CHANGE24HOUR': crypto_home_data['ETH']['USD']['CHANGE24HOUR'],
-        'CHANGEPCT24HOUR': crypto_home_data['ETH']['USD']['CHANGEPCT24HOUR'],
+        'CHANGE24HOUR': round(crypto_home_data['ETH']['USD']['CHANGE24HOUR'], 2),
+        'CHANGEPCT24HOUR': round(crypto_home_data['ETH']['USD']['CHANGEPCT24HOUR'], 2),
         'PRICE': crypto_home_data['ETH']['USD']['PRICE'],
-        'MKTCAP': crypto_home_data['ETH']['USD']['MKTCAP']
+        'MKTCAP': '{:,}'.format(int(crypto_home_data['ETH']['USD']['MKTCAP']))
     }
     # Stellar Lumens
     xlm = {
-        'CHANGE24HOUR': crypto_home_data['XLM']['USD']['CHANGE24HOUR'],
-        'CHANGEPCT24HOUR': crypto_home_data['XLM']['USD']['CHANGEPCT24HOUR'],
+        'CHANGE24HOUR': round(crypto_home_data['XLM']['USD']['CHANGE24HOUR'], 2),
+        'CHANGEPCT24HOUR': round(crypto_home_data['XLM']['USD']['CHANGEPCT24HOUR'], 2),
         'PRICE': crypto_home_data['XLM']['USD']['PRICE'],
-        'MKTCAP': crypto_home_data['XLM']['USD']['MKTCAP']
+        'MKTCAP': '{:,}'.format(int(crypto_home_data['XLM']['USD']['MKTCAP']))
     }
     # Zcash
     zec = {
-        'CHANGE24HOUR': crypto_home_data['ZEC']['USD']['CHANGE24HOUR'],
-        'CHANGEPCT24HOUR': crypto_home_data['ZEC']['USD']['CHANGEPCT24HOUR'],
+        'CHANGE24HOUR': round(crypto_home_data['ZEC']['USD']['CHANGE24HOUR'], 2),
+        'CHANGEPCT24HOUR': round(crypto_home_data['ZEC']['USD']['CHANGEPCT24HOUR'], 2),
         'PRICE': crypto_home_data['ZEC']['USD']['PRICE'],
-        'MKTCAP': crypto_home_data['ZEC']['USD']['MKTCAP']
+        'MKTCAP': '{:,}'.format(int(crypto_home_data['ZEC']['USD']['MKTCAP']))
     }
-    '''
 
-    if request.user.is_authenticated:
-        context = {
-            'user': request.user
+    if request.method == 'GET':
+        if request.user.is_authenticated:
+            context = {
+                'user': request.user,
+                'btc': btc,
+                'eth': eth,
+                'xlm': xlm,
+                'zec': zec
+            }
+            return render(request, 'portfolio/index.html', context)
+        else:
+            context = {
+                'user': '',
+                'btc': btc,
+                'eth': eth,
+                'xlm': xlm,
+                'zec': zec
+            }
+            return render(request, 'portfolio/index.html', context)
+    elif request.is_ajax():
+        crypto_data = {
+            'success': True,
+            'btc': btc,
+            'eth': eth,
+            'xlm': xlm,
+            'zec': zec
         }
-        return render(request, 'portfolio/index.html', context)
-    else:
-        context = {
-            'user': ''
-        }
-        return render(request, 'portfolio/index.html', context)
+        return JsonResponse(crypto_data)
 
 def portfolio(request):
     context = {
