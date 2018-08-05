@@ -23,24 +23,24 @@
             <thead id="portfolio-header">
                 <tr>
                     <th>Asset</th>
+                    <th>Price (USD)</th>
                     <th>Quantity</th>
-                    <th>USD Value</th>
-                    <th>BTC Value</th>
-                    <th>24h Percent Change</th>
-                    <th>24h USD Change</th>
-                    <th>Total Percent Change</th>
+                    <th>Value (USD)</th>
+                    <th>24h Percent Change (USD)</th>
+                    <th>24h Value Change (USD)</th>
+                    <th>Position Percent Change (USD)</th>
                 </tr>
             </thead>
             <tbody id="portfolio-body">
-                {% for position in portfolio %}
+                {% for position, data in portfolio.items %}
                     <tr>
-                        <th>{{position.crypto.name}} ({{position.crypto.code}})</th>
-                        <td>{{position.quantity}}</td>
-                        <td>$USD</td>
-                        <td>BTC</td>
-                        <td>24h % Change</td>
-                        <td>24h $ Change</td>
-                        <td>Total % Change</td>
+                        <th>{{data.name}} ({{data.code}})</th>
+                        <td>${{data.usd_price}}</td>
+                        <td>{{data.quantity}}</td>
+                        <td>${{data.usd_value}}</td>
+                        <td>{{data.change_pct_24h_usd}}%</td>
+                        <td>{{data.change_value_24h_usd}}</td>
+                        <td>{{data.change_pct_since_purchase_usd}}%</td>
                     </tr>
                 {% endfor %}
             </tbody>

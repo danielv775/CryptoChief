@@ -35,14 +35,18 @@ h1 {
 }
 
 .portfolio-container {
-    margin-left: 25px;
-    margin-right: 25px;
+    /*margin-left: 25px;
+    margin-right: 25px;*/
     #portfolio-view {
         margin-top: 25%;
         #portfolio-header {
             text-align: center;
         }
     }
+}
+
+td {
+    text-align: center;
 }
 
 

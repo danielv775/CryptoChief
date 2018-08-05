@@ -77,25 +77,46 @@ def portfolio(request):
         portfolio = Position.objects.filter(user=request.user)
         portfolio_to_send = {}
         crypto_codes = ''
-
         # Prepare Crypto code string for API GET request and initialize actual data structure to be sent to
         # portfolio page--portfolio_to_send
         for position in portfolio:
             crypto_codes += position.crypto.code + ','
             key = f'{position.crypto.code}-{position.id}'
-            portfolio_to_send[key] = {'name': position.crypto.name, 'quantity': position.quantity }
+            portfolio_to_send[key] = {'name': position.crypto.name, 'code': position.crypto.code,
+                                      'quantity': position.quantity, 'price_purchased_usd': position.price_purchased_usd }
 
         # GET live data
-        api_request = f'https://min-api.cryptocompare.com/data/pricemultifull?fsyms={crypto_codes}&tsyms=USD'
+        api_request = f'https://min-api.cryptocompare.com/data/pricemultifull?fsyms={crypto_codes}&tsyms=USD,BTC'
         crypto_portfolio_data = requests.get(api_request).json()['RAW']
 
         # Fill portfolio_to_send with live data from API GET request
         for position in portfolio_to_send:
-            portfolio_to_send[position]['price'] = crypto_portfolio_data[position.split('-')[0]]['USD']['PRICE']
-        print(portfolio_to_send)
+
+            # Price of asset in USD and BTC
+            portfolio_to_send[position]['usd_price'] = crypto_portfolio_data[position.split('-')[0]]['USD']['PRICE']
+            portfolio_to_send[position]['btc_price'] = crypto_portfolio_data[position.split('-')[0]]['BTC']['PRICE']
+
+            # Value of position in USD and BTC
+            usd_value = round(portfolio_to_send[position]['usd_price'] *  float(portfolio_to_send[position]['quantity']), 2)
+            btc_value = round(portfolio_to_send[position]['btc_price'] *  float(portfolio_to_send[position]['quantity']), 2)
+            portfolio_to_send[position]['usd_value'] = usd_value
+            portfolio_to_send[position]['btc_value'] = btc_value
+
+            # 24h Percent Change with respect to USD and BTC
+            portfolio_to_send[position]['change_pct_24h_usd'] = round(crypto_portfolio_data[position.split('-')[0]]['USD']['CHANGEPCT24HOUR'], 2)
+            portfolio_to_send[position]['change_pct_24h_btc'] = round(crypto_portfolio_data[position.split('-')[0]]['BTC']['CHANGEPCT24HOUR'], 2)
+
+            # 24h Position Value Change in USD and BTC
+            portfolio_to_send[position]['change_value_24h_usd'] = round(portfolio_to_send[position]['usd_value'] * (portfolio_to_send[position]['change_pct_24h_usd']/100.0), 2)
+            portfolio_to_send[position]['change_value_24h_btc'] = round(portfolio_to_send[position]['btc_value'] * (portfolio_to_send[position]['change_pct_24h_btc']/100.0), 10)
+
+            # Position Percent Change since Purchase in USD
+            portfolio_to_send[position]['change_pct_since_purchase_usd'] =  round(((( portfolio_to_send[position]['usd_price'] / float(portfolio_to_send[position]['price_purchased_usd']) ) - 1) * 100), 2)
+
         context = {
-            'portfolio': portfolio
+            'portfolio': portfolio_to_send
         }
+
         return render(request, 'portfolio/portfolio.html', context)
     else:
         return redirect('login')
