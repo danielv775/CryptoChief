@@ -27,10 +27,10 @@ h1 {
   color: red; }
 
 .portfolio-container {
-  /*margin-left: 25px;
-  margin-right: 25px;*/ }
+  margin-left: 15px;
+  margin-right: 15px; }
   .portfolio-container #portfolio-view {
-    margin-top: 25%; }
+    margin-top: 15%; }
     .portfolio-container #portfolio-view #portfolio-header {
       text-align: center; }
 

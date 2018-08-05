@@ -1,6 +1,50 @@
 
-
 const template_position = Handlebars.compile(document.querySelector('#load-position').innerHTML);
 document.addEventListener('DOMContentLoaded', () => {
 
+    function add_position() {
+        // Validate the requested crypto code exists
+        var code = document.querySelector('#code').value;
+
+        // Make a small API GET request to ensure the crypto code exists
+        const test_request = new XMLHttpRequest();
+        const url= `https://min-api.cryptocompare.com/data/price?fsym=${code}&tsyms=USD,BTC`;
+        test_request.open('GET', url);
+        test_request.send();
+        test_request.onload = () => {
+            const test_response = JSON.parse(test_request.responseText);
+            // If the crypto code is valid, send new position data to DB to be stored
+            if(test_response.Response != 'Error') {
+                const request = new XMLHttpRequest();
+                var csrftoken = Cookies.get('csrftoken');
+                request.open('POST', 'portfolio');
+                request.setRequestHeader('X-CSRFToken', csrftoken);
+                request.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+                request.onload = () => {
+                    const data = JSON.parse(request.responseText);
+                    // Parse new position data and add to portfolio view
+                    if(data.success) {
+                        console.log('Position stored in portfolio');
+                    }
+                    else {
+                        console.log('Position not stored in portfolio');
+                    }
+                }
+                const data = new FormData();
+                data.append('action', 'add-new-position');
+                data.append('code', code);
+                data.append('quantity', document.querySelector('#quantity').value);
+                data.append('price_purchased_usd', document.querySelector('#price_purchased_usd').value);
+                request.send(data);
+            }
+            else {
+                console.log(test_response);
+            }
+        }
+    }
+
+    // Bring up Form to enter crypto code, quantity, and price purchased in USD
+    document.querySelector('#send-position-button').onclick = add_position;
+
+    //const position = template_position({'position': position})
 });

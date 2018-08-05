@@ -12,12 +12,63 @@
           <td></td>
           <td></td>
           <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
         </tr>
     </script>
+    <script type="text/javascript" src="{% static 'portfolio/portfolio.js' %}"></script>
 {% endblock %}
 
 {% block body %}
     <h1>Your Crypto Assets</h1>
+    <h2>{{user.username}}</h2>
+    <form action="{% url 'logout' %}" method="post">
+        {% csrf_token %}
+        <div id="logout-button-container-small" class="button-container-small">
+            <button id="logout-button" type="submit" name="Logout" class="btn btn-primary auth-button">Log out</button>
+        </div>
+    </form>
+
+
+    <div id="add-position-button-container" class="button-container">
+        <button id="add-position-button" type="button" data-toggle="modal" data-target="#add-position-modal" name="add-position" class="btn btn-primary">
+            Add Position
+        </button>
+    </div>
+    <div class="modal fade" id="add-position-modal" tabindex="-1" role="dialog" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Add a Position to your Portfolio</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form>
+                <div class="form-group">
+                    <label class="field-label">3 Letter Crypto Code</label>
+                    <input type="text" id="code" name="crypto_code" class="form-control" placeholder="Enter Crypto Code (i.e. BTC for Bitcoin)">
+                </div>
+                <div class="form-group">
+                    <label class="field-label">Quantity</label>
+                    <input type="text" id="quantity" name="crypto_quantity" class="form-control" placeholder="Enter Quantity">
+                </div>
+                <div class="form-group">
+                    <label class="field-label">Price Purchased (USD)</label>
+                    <input type="text" id="price_purchased_usd" name="crypto_price_purchased_usd" class="form-control" placeholder="Enter Price Purchased in USD">
+                </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="submit" id="send-position-button" class="btn btn-primary" name="add-new-position">Add</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <div class="portfolio-container">
         <table id="portfolio-view" class="table">
             <thead id="portfolio-header">
