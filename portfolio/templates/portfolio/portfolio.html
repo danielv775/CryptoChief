@@ -8,7 +8,7 @@
     {% load static %}
     <script id="load-position" type="text/template">
         {% verbatim %}
-        <tr>
+        <tr class="table-row-body">
             <th>{{position.name}} ({{position.code}})</th>
             <td>${{position.usd_price}}</td>
             <td>{{position.quantity}}</td>
@@ -23,8 +23,8 @@
 {% endblock %}
 
 {% block body %}
-    <h1>Your Crypto Assets</h1>
-    <h2>{{user.username}}</h2>
+    <h1 id="portfolio-heading">Your Crypto Assets</h1>
+    <h2 id="user-heading">{{user.username}}</h2>
     <form action="{% url 'logout' %}" method="post">
         {% csrf_token %}
         <div id="logout-button-container-small" class="button-container-small">
@@ -34,7 +34,7 @@
 
 
     <div id="add-position-button-container" class="button-container">
-        <button id="add-position-button" type="button" data-toggle="modal" data-target="#add-position-modal" name="add-position" class="btn btn-primary">
+        <button id="add-position-button" type="button" data-toggle="modal" data-target="#add-position-modal" name="add-position" class="btn">
             Add Position
         </button>
     </div>
@@ -73,7 +73,7 @@
 
     <div class="portfolio-container">
         <table id="portfolio-view" class="table">
-            <thead id="portfolio-header">
+            <thead id="portfolio-header" class="my-thead">
                 <tr>
                     <th>Asset</th>
                     <th>Price (USD)</th>
@@ -81,12 +81,12 @@
                     <th>Value (USD)</th>
                     <th>24h Percent Change (USD)</th>
                     <th>24h Value Change (USD)</th>
-                    <th>Position Percent Change (USD)</th>
+                    <th>Percent Return (USD)</th>
                 </tr>
             </thead>
             <tbody id="portfolio-body">
                 {% for position, data in portfolio.items %}
-                    <tr>
+                    <tr class="table-row-body">
                         <th>{{data.name}} ({{data.code}})</th>
                         <td>${{data.usd_price}}</td>
                         <td>{{data.quantity}}</td>

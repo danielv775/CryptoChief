@@ -76,4 +76,12 @@ document.addEventListener('DOMContentLoaded', () => {
     // Bring up Form to enter crypto code, quantity, and price purchased in USD
     document.querySelector('#send-position-button').onclick = add_position;
 
+    document.querySelector('tbody').onmouseover = () => {
+      document.querySelector('tbody').style.overflowY = 'auto';
+    };
+
+    document.querySelector('tbody').onmouseleave = () => {
+        document.querySelector('tbody').style.overflowY = 'hidden';
+    }
+
 });

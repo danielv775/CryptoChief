@@ -1,3 +1,51 @@
+$my-green: #09c416;
+$my-light-green: #b5ffb7;
+$font-stack: 'Righteous', sans-serif;
+
+#add-position-button-container {
+    text-align: right;
+    margin-right: 10px;
+    margin-top: 15px;
+    #add-position-button {
+        background-color: $my-light-green;
+        color: $my-green;
+        width: 150px;
+        height: 40px;
+    }
+    #add-position-button:hover {
+        background-color: $my-green;
+        color: $my-light-green;
+    }
+}
+
+body {
+    height: 100%;
+    overflow-y: hidden;
+}
+
+#portfolio-heading {
+    margin-top: 15px;
+}
+
+.my-thead {
+    background-color: $my-light-green;
+    color: $my-green;
+    font-family: $font-stack;
+    font-size: 140%;
+}
+
+.table-row-body {
+    background-color: $my-light-green;
+    color: $my-green;
+    font-family: $font-stack;
+    font-size: 130%;
+}
+
+.table-row-body:hover {
+    background-color: $my-green;
+    color: $my-light-green;
+}
+
 h1 {
     color: purple;
 }
@@ -35,18 +83,32 @@ h1 {
 }
 
 .portfolio-container {
-    margin-left: 15px;
-    margin-right: 15px;
     #portfolio-view {
-        margin-top: 15%;
+        width: 100%;
+        margin-top: 10px;
         #portfolio-header {
             text-align: center;
         }
-    }
-}
+        tbody, thead {
+            display: block;
+        }
+        tbody {
+            height: 370px;
+            width: 100%;
+        }
+        tbody::-webkit-scrollbar {
+            width: 10px;
+            background-color: $my-light-green;
+        }
+        tbody::-webkit-scrollbar-thumb {
+            background: $my-green;
+        }
+        tbody td, thead th {
+            text-align: center;
+            width: 14%;
+        }
 
-td {
-    text-align: center;
+    }
 }
 
 

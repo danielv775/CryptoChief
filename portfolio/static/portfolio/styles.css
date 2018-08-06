@@ -1,3 +1,39 @@
+#add-position-button-container {
+  text-align: right;
+  margin-right: 10px;
+  margin-top: 15px; }
+  #add-position-button-container #add-position-button {
+    background-color: #b5ffb7;
+    color: #09c416;
+    width: 150px;
+    height: 40px; }
+  #add-position-button-container #add-position-button:hover {
+    background-color: #09c416;
+    color: #b5ffb7; }
+
+body {
+  height: 100%;
+  overflow-y: hidden; }
+
+#portfolio-heading {
+  margin-top: 15px; }
+
+.my-thead {
+  background-color: #b5ffb7;
+  color: #09c416;
+  font-family: "Righteous", sans-serif;
+  font-size: 140%; }
+
+.table-row-body {
+  background-color: #b5ffb7;
+  color: #09c416;
+  font-family: "Righteous", sans-serif;
+  font-size: 130%; }
+
+.table-row-body:hover {
+  background-color: #09c416;
+  color: #b5ffb7; }
+
 h1 {
   color: purple; }
 
@@ -26,15 +62,23 @@ h1 {
 .invalid {
   color: red; }
 
-.portfolio-container {
-  margin-left: 15px;
-  margin-right: 15px; }
-  .portfolio-container #portfolio-view {
-    margin-top: 15%; }
-    .portfolio-container #portfolio-view #portfolio-header {
-      text-align: center; }
-
-td {
-  text-align: center; }
+.portfolio-container #portfolio-view {
+  width: 100%;
+  margin-top: 10px; }
+  .portfolio-container #portfolio-view #portfolio-header {
+    text-align: center; }
+  .portfolio-container #portfolio-view tbody, .portfolio-container #portfolio-view thead {
+    display: block; }
+  .portfolio-container #portfolio-view tbody {
+    height: 370px;
+    width: 100%; }
+  .portfolio-container #portfolio-view tbody::-webkit-scrollbar {
+    width: 10px;
+    background-color: #b5ffb7; }
+  .portfolio-container #portfolio-view tbody::-webkit-scrollbar-thumb {
+    background: #09c416; }
+  .portfolio-container #portfolio-view tbody td, .portfolio-container #portfolio-view thead th {
+    text-align: center;
+    width: 14%; }
 
 /*# sourceMappingURL=styles.css.map */
