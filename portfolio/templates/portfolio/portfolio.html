@@ -7,15 +7,17 @@
 {% block javascript %}
     {% load static %}
     <script id="load-position" type="text/template">
+        {% verbatim %}
         <tr>
-          <th></th>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
+            <th>{{position.name}} ({{position.code}})</th>
+            <td>${{position.usd_price}}</td>
+            <td>{{position.quantity}}</td>
+            <td>${{position.usd_value}}</td>
+            <td>{{position.change_pct_24h_usd}}%</td>
+            <td>{{position.change_value_24h_usd}}</td>
+            <td>{{position.change_pct_since_purchase_usd}}%</td>
         </tr>
+        {% endverbatim %}
     </script>
     <script type="text/javascript" src="{% static 'portfolio/portfolio.js' %}"></script>
 {% endblock %}

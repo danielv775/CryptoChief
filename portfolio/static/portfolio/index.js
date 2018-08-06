@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function get_crypto_data() {
         const request = new XMLHttpRequest();
         var csrftoken = Cookies.get('csrftoken');
-        request.open('POST', '/');
+        request.open('GET', '/');
         request.setRequestHeader('X-CSRFToken', csrftoken);
         request.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
         request.onload = () => {

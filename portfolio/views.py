@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from .models import Position
+from .models import Position, Crypto
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 import requests, json
@@ -43,38 +43,51 @@ def index(request):
 
     if request.method == 'GET':
         if request.user.is_authenticated:
-            context = {
-                'user': request.user,
-                'btc': btc,
-                'eth': eth,
-                'xlm': xlm,
-                'zec': zec
-            }
-            return render(request, 'portfolio/index.html', context)
+            if request.is_ajax():
+                crypto_data = {
+                    'success': True,
+                    'btc': btc,
+                    'eth': eth,
+                    'xlm': xlm,
+                    'zec': zec
+                }
+                return JsonResponse(crypto_data)
+            else:
+                context = {
+                    'user': request.user,
+                    'btc': btc,
+                    'eth': eth,
+                    'xlm': xlm,
+                    'zec': zec
+                }
+                return render(request, 'portfolio/index.html', context)
         else:
-            context = {
-                'user': '',
-                'btc': btc,
-                'eth': eth,
-                'xlm': xlm,
-                'zec': zec
-            }
-            return render(request, 'portfolio/index.html', context)
-    elif request.is_ajax():
-        crypto_data = {
-            'success': True,
-            'btc': btc,
-            'eth': eth,
-            'xlm': xlm,
-            'zec': zec
-        }
-        return JsonResponse(crypto_data)
+            if request.is_ajax():
+                crypto_data = {
+                    'success': True,
+                    'btc': btc,
+                    'eth': eth,
+                    'xlm': xlm,
+                    'zec': zec
+                }
+                return JsonResponse(crypto_data)
+            else:
+                context = {
+                    'user': '',
+                    'btc': btc,
+                    'eth': eth,
+                    'xlm': xlm,
+                    'zec': zec
+                }
+                return render(request, 'portfolio/index.html', context)
 
 def portfolio(request):
     if request.user.is_authenticated:
-        try:
+        if request.method == 'GET':
             # Construct Portfolio from a User's Positions
             portfolio = Position.objects.filter(user=request.user)
+            if len(portfolio) == 0:
+                return render(request, 'portfolio/portfolio.html', {'user': request.user})
             portfolio_to_send = {}
             crypto_codes = ''
             # Prepare Crypto code string for API GET request and initialize actual data structure to be sent to
@@ -93,7 +106,7 @@ def portfolio(request):
             for position in portfolio_to_send:
 
                 # Price of asset in USD and BTC
-                portfolio_to_send[position]['usd_price'] = crypto_portfolio_data[position.split('-')[0]]['USD']['PRICE']
+                portfolio_to_send[position]['usd_price'] = round(crypto_portfolio_data[position.split('-')[0]]['USD']['PRICE'], 4)
                 portfolio_to_send[position]['btc_price'] = crypto_portfolio_data[position.split('-')[0]]['BTC']['PRICE']
 
                 # Value of position in USD and BTC
@@ -112,37 +125,71 @@ def portfolio(request):
 
                 # Position Percent Change since Purchase in USD
                 portfolio_to_send[position]['change_pct_since_purchase_usd'] =  round(((( portfolio_to_send[position]['usd_price'] / float(portfolio_to_send[position]['price_purchased_usd']) ) - 1) * 100), 2)
-
-            if request.is_ajax() and request.POST['action'] == 'add-new-position':
-                code = request.POST['code'];
-                quantity = request.POST['quantity']
-                price_purchased_usd = request.POST['price_purchased_usd']
-
-                print(code)
-                print(quantity)
-                print(price_purchased_usd)
-
-                # GET live data
-                api_request = f'https://min-api.cryptocompare.com/data/pricemultifull?fsyms={code}&tsyms=USD,BTC'
-                crypto_portfolio_data = requests.get(api_request).json()['RAW']
-                print(crypto_portfolio_data)
-
-                return JsonResponse({'success': True})
+            if request.is_ajax():
+                portfolio_to_send['success'] = True
+                return JsonResponse(portfolio_to_send)
             else:
                 context = {
                     'portfolio': portfolio_to_send,
                     'user': request.user
                 }
                 return render(request, 'portfolio/portfolio.html', context)
+
+        try:
+            if request.is_ajax() and request.POST['action'] == 'add-new-position':
+                position_to_send = {}
+                code = request.POST['code'];
+                quantity = float(request.POST['quantity'])
+                price_purchased_usd = float(request.POST['price_purchased_usd'])
+
+                # Add position to DB Model for user
+                crypto = Crypto.objects.get(code=code)
+                new_position = Position(user=request.user, crypto=crypto, quantity=quantity, price_purchased_usd=price_purchased_usd)
+                quantity = new_position.quantity
+                price_purchased_usd = new_position.price_purchased_usd
+                new_position.save()
+
+                # GET live data
+                api_request = f'https://min-api.cryptocompare.com/data/pricemultifull?fsyms={code}&tsyms=USD,BTC'
+                crypto_portfolio_data = requests.get(api_request).json()['RAW']
+
+                # Price in USD and BTC
+                usd_price = round(crypto_portfolio_data[code]['USD']['PRICE'], 4)
+                btc_price = crypto_portfolio_data[code]['BTC']['PRICE']
+
+                # Value of Position in USD and BTC
+                usd_value = round(usd_price * float(quantity), 2)
+                btc_value = btc_price * float(quantity)
+
+                # 24h Percent Change with respect to USD and BTC
+                change_pct_24h_usd = round(crypto_portfolio_data[code]['USD']['CHANGEPCT24HOUR'], 2)
+                change_pct_24h_btc = round(crypto_portfolio_data[code]['BTC']['CHANGEPCT24HOUR'], 2)
+
+                # 24h Position Value Change in USD and BTC
+                change_value_24h_usd = round((change_pct_24h_usd/100.0) * usd_value, 2)
+                change_value_24h_btc = (change_pct_24h_btc/100.0) * btc_value
+
+                # Position Percent Change since Purchase in USD
+                change_pct_since_purchase_usd = round(((usd_price/float(price_purchased_usd))-1)*100.0,2)
+
+                position_to_send = {'success': True,
+                                    'name': crypto.name, 'code': code,
+                                    'quantity': quantity, 'price_purchased_usd': price_purchased_usd,
+                                    'usd_price': usd_price, 'btc_price': btc_price, 'usd_value': usd_value,
+                                    'btc_value': btc_value, 'change_pct_24h_usd': change_pct_24h_usd,
+                                    'change_pct_24h_btc': change_pct_24h_btc, 'change_value_24h_usd': change_value_24h_usd,
+                                    'change_value_24h_btc': change_value_24h_btc,
+                                    'change_pct_since_purchase_usd': change_pct_since_purchase_usd
+                }
+                return JsonResponse(position_to_send)
         except Exception as e:
-            context = {
-                'user': request.user
-            }
-            return render(request, 'portfolio/portfolio.html', context)
+            return JsonResponse({'success': False})
     else:
         return redirect('login')
 
 def login_view(request):
+    if request.method == 'GET':
+        return render(request, 'portfolio/login.html')
     if not request.user.is_authenticated:
         try:
             username = request.POST['username']
@@ -155,11 +202,13 @@ def login_view(request):
                 return render(request, 'portfolio/login.html', {'message': "Invalid Credentials"})
         except Exception as e:
             print(e)
-            return render(request, 'portfolio/login.html')
+            return render(request, 'portfolio/login.html', {'message': "Invalid Credentials"})
     else:
         return redirect('portfolio')
 
 def signup(request):
+    if request.method == 'GET':
+        return render(request, 'portfolio/signup.html')
     if not request.user.is_authenticated:
         try:
             username = request.POST['username']
@@ -171,7 +220,6 @@ def signup(request):
             else:
                 return render(request, 'portfolio/signup.html', {'message': "Invalid Credentials"})
         except Exception as e:
-            print(e)
             return render(request, 'portfolio/signup.html', {'message': "Invalid Credentials"})
     else:
         return redirect('portfolio')
