@@ -12,10 +12,10 @@
             <th>{{position.name}} ({{position.code}})</th>
             <td>${{position.usd_price}}</td>
             <td>{{position.quantity}}</td>
-            <td>${{position.usd_value}}</td>
-            <td>{{position.change_pct_24h_usd}}%</td>
-            <td>{{position.change_value_24h_usd}}</td>
-            <td>{{position.change_pct_since_purchase_usd}}%</td>
+            <td id="data-usd-value">${{position.usd_value}}</td>
+            <td id="data-change-pct-24h-usd">{{position.change_pct_24h_usd}}%</td>
+            <td id="data-change-value-24h-usd">{{position.change_value_24h_usd}}</td>
+            <td id="data-percent-return-usd">{{position.change_pct_since_purchase_usd}}%</td>
         </tr>
         {% endverbatim %}
     </script>
@@ -90,10 +90,10 @@
                         <th>{{data.name}} ({{data.code}})</th>
                         <td>${{data.usd_price}}</td>
                         <td>{{data.quantity}}</td>
-                        <td>${{data.usd_value}}</td>
-                        <td>{{data.change_pct_24h_usd}}%</td>
-                        <td>{{data.change_value_24h_usd}}</td>
-                        <td>{{data.change_pct_since_purchase_usd}}%</td>
+                        <td id="data-usd-value">${{data.usd_value}}</td>
+                        <td id="data-change-pct-24h-usd">{{data.change_pct_24h_usd}}%</td>
+                        <td id="data-change-value-24h-usd">{{data.change_value_24h_usd}}</td>
+                        <td id="data-percent-return-usd">{{data.change_pct_since_purchase_usd}}%</td>
                     </tr>
                 {% endfor %}
             </tbody>

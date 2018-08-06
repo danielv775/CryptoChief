@@ -2,6 +2,26 @@
 const template_position = Handlebars.compile(document.querySelector('#load-position').innerHTML);
 document.addEventListener('DOMContentLoaded', () => {
 
+    function gain_loss_colors() {
+        document.querySelectorAll('#data-change-pct-24h-usd').forEach(td => {
+           if(td.innerHTML[0] == '-') {
+               td.style.color = '#ff2848';
+           }
+        });
+        document.querySelectorAll('#data-change-value-24h-usd').forEach(td => {
+           if(td.innerHTML[0] == '-') {
+               td.style.color = '#ff2848';
+           }
+        });
+        document.querySelectorAll('#data-percent-return-usd').forEach(td => {
+           if(td.innerHTML[0] == '-') {
+               td.style.color = '#ff2848';
+               td.parentNode.children[3].style.color = '#ff2848';
+           }
+        });
+
+    }
+
     function add_position() {
         // Validate the requested crypto code exists
         var code = document.querySelector('#code').value;
@@ -64,12 +84,15 @@ document.addEventListener('DOMContentLoaded', () => {
                     const refresh_position_to_add = template_position({'position': refresh_position});
                     document.querySelector('#portfolio-body').innerHTML += refresh_position_to_add;
                 }
+                gain_loss_colors();
             }
             else {
                 console.log('Crypto data request failed');
             }
         }
     }
+
+    gain_loss_colors();
 
     setInterval(update_portfolio_data, 5000);
 
@@ -83,5 +106,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.querySelector('tbody').onmouseleave = () => {
         document.querySelector('tbody').style.overflowY = 'hidden';
     }
+
+
 
 });
