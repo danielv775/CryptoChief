@@ -5,27 +5,26 @@
 {% endblock %}
 
 {% block body %}
-    <h1>Log In</h1>
 
-    <form id="login-form" class="auth-form" action="{% url 'login' %}" method="post">
-        <div class="invalid">
-            {{message}}
-        </div>
-        {% csrf_token %}
-        <div class="form-group">
-            <label class="field-label">Username</label>
-            <input type="text" name="username" class="form-control" placeholder="Enter username">
-        </div>
-        <div class="form-group">
-            <label class="field-label">Password</label>
-            <input type="password" name="password" class="form-control" placeholder="Enter password">
-        </div>
-        <div id="new-user">
-            <a href="{% url 'signup' %}">Don't have an account? Sign Up Now!</a>
-        </div>
-        <div id="login-button-container" class="button-container">
-            <button id="login-button" type="submit" name="Login" class="btn btn-primary auth-button">Login</button>
-        </div>
-    </form>
+    <body class="auth-background">
+        <h1 class="auth-heading">Log In</h1>
+
+        <form id="login-form" class="auth-form" action="{% url 'login' %}" method="post">
+            <div class="invalid">
+                {{message}}
+            </div>
+            {% csrf_token %}
+            <div class="form-group">
+                <label class="field-label auth-label">Username</label>
+                <input type="text" name="username" class="form-control" placeholder="Enter username">
+            </div>
+            <div class="form-group">
+                <label class="field-label auth-label">Password</label>
+                <input type="password" name="password" class="form-control" placeholder="Enter password">
+            </div>
+            <button id="login-button" type="submit" name="Login" class="btn auth-button">Log In</button>
+            <a id="new-user" href="{% url 'signup' %}">Don't have an account? Sign Up Now!</a>
+        </form>
+    </body>
 
 {% endblock %}

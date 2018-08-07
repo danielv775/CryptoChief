@@ -24,19 +24,21 @@
 
 {% block body %}
     <body id="portfolio-background">
-        <form id="logout-form" action="{% url 'logout' %}" method="post">
-            {% csrf_token %}
+        <form id="home-form" action="{% url 'index' %}">
+            <button id="home-button" type="submit" name="Home" class="btn auth-button">Home</button>
+        </form>
+        <form id="logout-form" action="{% url 'logout' %}">
             <button id="logout-button" type="submit" name="Logout" class="btn auth-button">Log out</button>
         </form>
         <div class="container">
             <div class="row summary-feed">
-                <div class="col-md-4"><h2 id="user-heading">{{user.username}}</h2></div>
+                <div class="col-lg-4"><h2 id="user-heading">{{user.username}}</h2></div>
                 {% if overall %}
-                    <div id="current_portfolio_value_usd" class="col-md-4 summary-metric">${{overall.current_portfolio_value_usd}}</div>
-                    <div id="return_overall_percent_usd" class="col-md-4 summary-metric">{{overall.return_overall_percent_usd}}</div>
+                    <div id="current_portfolio_value_usd" class="col-lg-4 summary-metric">${{overall.current_portfolio_value_usd}}</div>
+                    <div id="return_overall_percent_usd" class="col-lg-4 summary-metric">{{overall.return_overall_percent_usd}}</div>
                 {% else %}
-                    <div id="current_portfolio_value_usd" class="col-md-4 summary-metric"></div>
-                    <div id="return_overall_percent_usd" class="col-md-4 summary-metric"></div>
+                    <div id="current_portfolio_value_usd" class="col-lg-4 summary-metric"></div>
+                    <div id="return_overall_percent_usd" class="col-lg-4 summary-metric"></div>
                 {% endif %}
             </div>
         </div>
@@ -56,18 +58,22 @@
                         <input type="text" id="code" name="crypto_code" class="form-control" placeholder="Enter Crypto Code (i.e. BTC for Bitcoin)">
                     </div>
                     <div class="form-group">
+                        <label class="field-label">Price Purchased (USD)</label>
+                        <input type="text" id="price_purchased_usd" name="crypto_price_purchased_usd" class="form-control" placeholder="Enter Price Purchased in USD">
+                    </div>
+                    <div class="form-group">
                         <label class="field-label">Quantity</label>
                         <input type="text" id="quantity" name="crypto_quantity" class="form-control" placeholder="Enter Quantity">
                     </div>
                     <div class="form-group">
-                        <label class="field-label">Price Purchased (USD)</label>
-                        <input type="text" id="price_purchased_usd" name="crypto_price_purchased_usd" class="form-control" placeholder="Enter Price Purchased in USD">
+                        <label class="field-label">Date Purchased</label>
+                        <input type="date" id="date_purchased" name="crypto_date_purchased" class="form-control" placeholder="Enter Date">
                     </div>
                 </form>
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="submit" id="send-position-button" class="btn btn-primary" name="add-new-position">Add</button>
+                <button type="submit" id="send-position-button" data-dismiss="modal" class="btn btn-primary" name="add-new-position">Add</button>
               </div>
             </div>
           </div>

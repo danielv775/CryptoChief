@@ -1,4 +1,8 @@
-#add-position-button, #logout-button, #login-form-button #login-button-home, #logout-form-button #logout-button-home, #signup-form-button #signup-button-home, #portfolio-button {
+#home-intro {
+  text-align: center;
+  margin-top: 5%; }
+
+#add-position-button, #logout-button, #home-button, #login-button, #signup-button, #login-form-button #login-button-home, #logout-form-button #logout-button-home, #signup-form-button #signup-button-home, #portfolio-button {
   background-color: #110028;
   color: #09c416;
   height: 40px;
@@ -13,32 +17,61 @@
   color: #110028; }
 
 .summary-feed {
+  margin-top: 2%;
   text-align: center; }
 
 #logout-form {
-  text-align: right;
+  display: inline-block;
   margin-top: 10px;
-  margin-right: 10px; }
+  margin-left: 10px; }
 
-#logout-button {
+#home-form {
+  float: right;
+  margin-top: 10px;
+  margin-right: 10px;
+  display: inline-block; }
+
+#logout-button, #home-button {
   width: 200px;
   font-weight: bold; }
 
-#logout-button:hover {
+@media (max-width: 481px) {
+  #logout-button, #home-button {
+    width: 150px; } }
+#login-button, #signup-button {
+  width: 100%;
+  font-weight: bold;
+  font-size: 130%;
+  height: 40px; }
+
+#login-button:hover, #signup-button:hover {
   background-color: #09c416;
   color: #110028; }
 
-#user-heading {
-  color: white;
+#logout-button:hover, #home-button:hover {
+  background-color: #09c416;
+  color: #110028; }
+
+#user-heading, .summary-metric, .auth-heading {
   font-family: "Josefin Sans", sans-serif;
   font-size: 350%;
   font-weight: bold; }
 
-.summary-metric {
+#new-user {
   color: #09c416;
-  font-family: "Josefin Sans", sans-serif;
-  font-size: 350%;
-  font-weight: bold; }
+  font-size: 110%;
+  font-family: "Josefin Sans", sans-serif; }
+
+#user-heading {
+  color: white; }
+
+.summary-metric {
+  color: #09c416; }
+
+.auth-heading {
+  color: white;
+  text-align: center;
+  margin-top: 14%; }
 
 #portfolio-background {
   background-color: #110028; }
@@ -63,10 +96,14 @@ h1 {
   color: purple; }
 
 .auth-form {
-  width: 75%;
-  margin-top: 10%;
+  width: 70%;
+  margin-top: 3%;
   margin-left: auto;
   margin-right: auto; }
+  .auth-form .auth-label {
+    font-family: "Josefin Sans", sans-serif;
+    font-size: 130%;
+    color: #09c416; }
 
 .home-feed {
   text-align: center;
@@ -80,12 +117,10 @@ h1 {
     color: #09c416;
     font-family: "Josefin Sans", sans-serif;
     font-size: 140%; }
-    .home-feed .home-price .home-data {
+    .home-feed .home-price .home-data-title {
       margin-top: 10px; }
-
-#home-intro {
-  text-align: center;
-  margin-top: 5%; }
+    .home-feed .home-price .home-data-data {
+      margin-top: 10px; }
 
 .home-page-text {
   color: white;
@@ -134,11 +169,12 @@ h1 {
     background-color: #09c416;
     color: #110028; }
 
-#home-background {
+#home-background, .auth-background {
   background-color: #110028; }
 
 .invalid {
-  color: red; }
+  color: #ff2848;
+  font-family: "Josefin Sans", sans-serif; }
 
 .border-table td {
   border-color: white; }
@@ -147,8 +183,7 @@ h1 {
   border: none; }
 
 #portfolio-view {
-  width: 100%;
-  margin-top: 5%; }
+  width: 100%; }
   #portfolio-view #portfolio-header {
     text-align: center; }
   #portfolio-view tbody, #portfolio-view thead {

@@ -5,29 +5,30 @@
 {% endblock %}
 
 {% block body %}
-    <h1>Sign Up</h1>
 
-    <form id="signup-form" class="auth-form" action="{% url 'signup' %}" method="post">
-        {% csrf_token %}
-        <div class="invalid">
-            {{message}}
-        </div>
-        <div class="form-group">
-            <label class="field-label">Username</label>
-            <input type="text" name="username" class="form-control" placeholder="Enter username">
-        </div>
-        <div class="form-group">
-            <label class="field-label">Email</label>
-            <input type="email" name="email" class="form-control" placeholder="Enter email">
-        </div>
-        <div class="form-group">
-            <label class="field-label">Password</label>
-            <input type="password" name="password" class="form-control" placeholder="Enter password">
-        </div>
-        <div id="signup-button-container" class="button-container">
-            <button id="signup-button" type="submit" name="Signup" class="btn btn-primary auth-button">Sign Up</button>
-        </div>
-    </form>
+    <body class="auth-background">
+        <h1 class="auth-heading">Sign Up</h1>
+
+        <form id="signup-form" class="auth-form" action="{% url 'signup' %}" method="post">
+            {% csrf_token %}
+            <div class="invalid">
+                {{message}}
+            </div>
+            <div class="form-group">
+                <label class="field-label auth-label">Username</label>
+                <input type="text" name="username" class="form-control" placeholder="Enter username">
+            </div>
+            <div class="form-group">
+                <label class="field-label auth-label">Email</label>
+                <input type="email" name="email" class="form-control" placeholder="Enter email">
+            </div>
+            <div class="form-group">
+                <label class="field-label auth-label">Password</label>
+                <input type="password" name="password" class="form-control" placeholder="Enter password">
+            </div>
+            <button id="signup-button" type="submit" name="Signup" class="btn auth-button">Sign Up</button>
+        </form>
+    </body>
 
 
 {% endblock %}

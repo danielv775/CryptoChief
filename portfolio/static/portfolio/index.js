@@ -8,14 +8,19 @@ document.addEventListener('DOMContentLoaded', () => {
         var mktcap_id = `#${token_string}-mktcap`;
         document.querySelector(price_id).innerHTML = `$${token_data.PRICE}`;
         var change_pct_24h = `${token_data.CHANGEPCT24HOUR}%`;
-        if(change_pct_24h[0] == '-') {
+        var change_24h = token_data.CHANGE24HOUR;
+        if(change_pct_24h[0] == '-')  {
             document.querySelector(pct_change_id).style.color = '#ff2848';
+            document.querySelector(usd_change_id).style.color = '#ff2848';
+            change_24h = `${change_24h}`.substring(1);
+            change_24h = `-$${change_24h}`;
         }
         else {
             change_pct_24h = `+${change_pct_24h}`;
+            change_24h = `+$${change_24h}`
         }
         document.querySelector(pct_change_id).innerHTML = change_pct_24h;
-        document.querySelector(usd_change_id).innerHTML = token_data.CHANGE24HOUR;
+        document.querySelector(usd_change_id).innerHTML = change_24h;
         document.querySelector(mktcap_id).innerHTML = `$${token_data.MKTCAP}`;
     }
 
@@ -39,7 +44,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 xlm = data.xlm;
                 // Zcash
                 zec = data.zec;
-
+                console.log(data);
                 // Update Crypto Data
                 update_crypto_data('btc', btc);
                 update_crypto_data('eth', eth);

@@ -1,7 +1,14 @@
 $my-green: #09c416;
 $my-light-green: #b5ffb7;
 $dark-background: #110028;
+$my-red: #ff2848;
 $font-stack: 'Josefin Sans', sans-serif;
+
+
+#home-intro {
+    text-align: center;
+    margin-top: 5%;
+}
 
 %my-button {
     background-color: $dark-background;
@@ -21,38 +28,80 @@ $font-stack: 'Josefin Sans', sans-serif;
 }
 
 .summary-feed {
+    margin-top: 2%;
     text-align: center;
 }
 
 #logout-form {
-    text-align: right;
+    display: inline-block;
     margin-top: 10px;
-    margin-right: 10px;
+    margin-left: 10px;
 }
 
-#logout-button {
+#home-form {
+    float: right;
+    margin-top: 10px;
+    margin-right: 10px;
+    display: inline-block;
+}
+
+#logout-button, #home-button {
     @extend %my-button;
     width: 200px;
     font-weight: bold;
 }
 
-#logout-button:hover {
+@media (max-width: 481px) {
+    #logout-button, #home-button {
+        width: 150px;
+    }
+}
+
+#login-button, #signup-button {
+    @extend %my-button;
+    width: 100%;
+    font-weight: bold;
+    font-size: 130%;
+    height: 40px;
+}
+
+#login-button:hover, #signup-button:hover {
     background-color: $my-green;
     color: $dark-background;
 }
 
-#user-heading {
-    color: white;
+#logout-button:hover, #home-button:hover {
+    background-color: $my-green;
+    color: $dark-background;
+}
+
+%text-format {
     font-family: $font-stack;
     font-size: 350%;
     font-weight: bold;
 }
 
-.summary-metric {
+#new-user {
     color: $my-green;
+    font-size: 110%;
     font-family: $font-stack;
-    font-size: 350%;
-    font-weight: bold;
+}
+
+#user-heading {
+    @extend %text-format;
+    color: white;
+}
+
+.summary-metric {
+    @extend %text-format;
+    color: $my-green;
+}
+
+.auth-heading {
+    @extend %text-format;
+    color: white;
+    text-align: center;
+    margin-top: 14%;
 }
 
 #portfolio-background {
@@ -83,10 +132,15 @@ h1 {
 }
 
 .auth-form {
-    width: 75%;
-    margin-top: 10%;
+    width: 70%;
+    margin-top: 3%;
     margin-left: auto;
     margin-right: auto;
+    .auth-label {
+        font-family: $font-stack;
+        font-size: 130%;
+        color: $my-green;
+    }
 }
 
 .home-feed {
@@ -102,15 +156,13 @@ h1 {
         color: $my-green;
         font-family: $font-stack;
         font-size: 140%;
-        .home-data {
+        .home-data-title {
+            margin-top: 10px;
+        }
+        .home-data-data {
             margin-top: 10px;
         }
     }
-}
-
-#home-intro {
-    text-align: center;
-    margin-top: 5%;
 }
 
 .home-page-text {
@@ -174,14 +226,14 @@ h1 {
     }
 }
 
-#home-background {
+#home-background, .auth-background {
     background-color: $dark-background;
 }
 
 .invalid {
-    color: red;
+    color: $my-red;
+    font-family: $font-stack;
 }
-
 
 .border-table td {
     border-color: white;
@@ -192,7 +244,6 @@ h1 {
 
 #portfolio-view {
     width: 100%;
-    margin-top: 5%;
     #portfolio-header {
         text-align: center;
     }

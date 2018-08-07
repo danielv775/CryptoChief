@@ -2,15 +2,22 @@
 const template_position = Handlebars.compile(document.querySelector('#load-position').innerHTML);
 document.addEventListener('DOMContentLoaded', () => {
 
-    function gain_loss_colors() {
+    function gain_loss_formatting() {
         document.querySelectorAll('#data-change-pct-24h-usd').forEach(td => {
            if(td.innerHTML[0] == '-') {
                td.style.color = '#ff2848';
+           }
+           else {
+               td.innerHTML = `+${td.innerHTML}`;
            }
         });
         document.querySelectorAll('#data-change-value-24h-usd').forEach(td => {
            if(td.innerHTML[0] == '-') {
                td.style.color = '#ff2848';
+               td.innerHTML = `-$${td.innerHTML.substring(1)}`;
+           }
+           else {
+               td.innerHTML = `+$${td.innerHTML}`;
            }
         });
         document.querySelectorAll('#data-percent-return-usd').forEach(td => {
@@ -34,17 +41,17 @@ document.addEventListener('DOMContentLoaded', () => {
     function add_position() {
         // Validate the requested crypto code exists
         var code = document.querySelector('#code').value;
+        var date = document.querySelector('#date_purchased').value;
 
-        // Make a small API GET request to ensure the crypto code exists
-        // Use my my own API GET endpoint to check against if the ticker is in my DB
+        // Make a small API GET request to my own DB to ensure the crypto code exists
         const test_request = new XMLHttpRequest();
-        const url= `https://min-api.cryptocompare.com/data/price?fsym=${code}&tsyms=USD,BTC`;
+        const url = `crypto/${code}`;
         test_request.open('GET', url);
         test_request.send();
         test_request.onload = () => {
             const test_response = JSON.parse(test_request.responseText);
             // If the crypto code is valid, send new position data to DB to be stored
-            if(test_response.Response != 'Error') {
+            if(test_response.success) {
                 const request = new XMLHttpRequest();
                 var csrftoken = Cookies.get('csrftoken');
                 request.open('POST', 'portfolio');
@@ -69,7 +76,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 data.append('code', code);
                 data.append('quantity', document.querySelector('#quantity').value);
                 data.append('price_purchased_usd', document.querySelector('#price_purchased_usd').value);
+                data.append('date', date);
                 request.send(data);
+                document.querySelector('#code').value = '';
+                document.querySelector('#quantity').value = '';
+                document.querySelector('#price_purchased_usd').value = '';
+                document.querySelector('#date_purchased').value = '';
             }
             else {
                 console.log(test_response);
@@ -95,7 +107,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     const refresh_position_to_add = template_position({'position': refresh_position});
                     document.querySelector('#portfolio-body').innerHTML += refresh_position_to_add;
                 }
-                gain_loss_colors();
+                gain_loss_formatting();
 
                 // Update Summary Metrics
                 var return_overall_percent_usd = data['portfolio_overall']['return_overall_percent_usd'];
@@ -110,7 +122,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
     summary_gain_loss_formatting();
-    gain_loss_colors();
+    gain_loss_formatting();
     setInterval(update_portfolio_data, 5000);
 
     // Bring up Form to enter crypto code, quantity, and price purchased in USD
@@ -123,7 +135,5 @@ document.addEventListener('DOMContentLoaded', () => {
     document.querySelector('tbody').onmouseleave = () => {
         document.querySelector('tbody').style.overflowY = 'hidden';
     }
-
-
 
 });

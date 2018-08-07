@@ -31,9 +31,9 @@ def index(request):
     }
     # Stellar Lumens
     xlm = {
-        'CHANGE24HOUR': round(crypto_home_data['XLM']['USD']['CHANGE24HOUR'], 2),
+        'CHANGE24HOUR': round(crypto_home_data['XLM']['USD']['CHANGE24HOUR'], 4),
         'CHANGEPCT24HOUR': round(crypto_home_data['XLM']['USD']['CHANGEPCT24HOUR'], 2),
-        'PRICE': crypto_home_data['XLM']['USD']['PRICE'],
+        'PRICE': round(crypto_home_data['XLM']['USD']['PRICE'], 4),
         'MKTCAP': '{:,}'.format(int(crypto_home_data['XLM']['USD']['MKTCAP']))
     }
     # Zcash
@@ -43,7 +43,6 @@ def index(request):
         'PRICE': crypto_home_data['ZEC']['USD']['PRICE'],
         'MKTCAP': '{:,}'.format(int(crypto_home_data['ZEC']['USD']['MKTCAP']))
     }
-
     if request.method == 'GET':
         if request.user.is_authenticated:
             if request.is_ajax():
@@ -143,8 +142,9 @@ def portfolio(request):
 
             portfolio_overall['current_portfolio_value_usd'] = Decimal(portfolio_overall['current_portfolio_value_usd']).quantize(Decimal(10) ** -2)
             portfolio_overall['return_overall_percent_usd'] = round(((float(portfolio_overall['current_portfolio_value_usd']) / portfolio_overall['initial_portfolio_value_usd'])-1)*100.0, 2)
-            return_overall_percent_usd = portfolio_overall['return_overall_percent_usd']
+            return_overall_percent_usd = '{:,}'.format(portfolio_overall['return_overall_percent_usd'])
             portfolio_overall['return_overall_percent_usd'] = f'{return_overall_percent_usd}%'
+            portfolio_overall['current_portfolio_value_usd'] = '{:,}'.format(portfolio_overall['current_portfolio_value_usd'])
 
             if request.is_ajax():
                 context = {
@@ -169,10 +169,11 @@ def portfolio(request):
                 code = request.POST['code'];
                 quantity = float(request.POST['quantity'])
                 price_purchased_usd = float(request.POST['price_purchased_usd'])
+                date = request.POST['date']
 
                 # Add position to DB Model for user
                 crypto = Crypto.objects.get(code=code)
-                new_position = Position(user=request.user, crypto=crypto, quantity=quantity, price_purchased_usd=price_purchased_usd)
+                new_position = Position(user=request.user, crypto=crypto, quantity=quantity, price_purchased_usd=price_purchased_usd, date_purchased=date)
                 quantity = new_position.quantity
                 price_purchased_usd = new_position.price_purchased_usd
                 new_position.save()
@@ -255,3 +256,10 @@ def signup(request):
 def logout_view(request):
     logout(request)
     return redirect('index')
+
+def crypto(request, code):
+    try:
+        name = Crypto.objects.get(code=code)
+        return JsonResponse({'success': True})
+    except Exception as e:
+        return JsonResponse({'success': False, 'message': 'This crypto ticker is not supported'})

@@ -8,7 +8,7 @@ class Position(models.Model):
     crypto = models.ForeignKey('Crypto', related_name='position', on_delete=models.CASCADE)
     quantity = models.DecimalField(max_digits=17, decimal_places=8)
     price_purchased_usd = models.DecimalField(max_digits=10, decimal_places=4)
-    date_purchased = models.DateTimeField(auto_now_add=True)
+    date_purchased = models.DateTimeField()
     date_updated = models.DateTimeField(auto_now=True)
 
     def __str__(self):
