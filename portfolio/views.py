@@ -5,8 +5,10 @@ from django.contrib.auth import authenticate, login, logout
 import requests, json
 from django.http import JsonResponse
 from decimal import Decimal
+from django.views.decorators.vary import vary_on_headers
 # Create your views here.
 
+vary_on_headers('X-Requested-With')
 def index(request):
 
     api_request = 'https://min-api.cryptocompare.com/data/pricemultifull?fsyms=BTC,ETH,ZEC,XLM&tsyms=USD'
@@ -89,7 +91,7 @@ def portfolio(request):
             if len(portfolio) == 0:
                 return render(request, 'portfolio/portfolio.html', {'user': request.user})
             portfolio_to_send = {}
-            portfolio_overall = {'initial_portfolio_value': 0, 'current_portfolio_value': 0}
+            portfolio_overall = {'initial_portfolio_value_usd': 0, 'current_portfolio_value_usd': 0}
             crypto_codes = ''
             # Prepare Crypto code string for API GET request and initialize actual data structure to be sent to
             # portfolio page--portfolio_to_send
@@ -100,7 +102,7 @@ def portfolio(request):
                                           'quantity': position.quantity, 'price_purchased_usd': position.price_purchased_usd
                 }
                 initial_position_value = round(position.quantity * position.price_purchased_usd, 2)
-                portfolio_overall['initial_portfolio_value'] += float(initial_position_value)
+                portfolio_overall['initial_portfolio_value_usd'] += float(initial_position_value)
 
             # GET live data
             api_request = f'https://min-api.cryptocompare.com/data/pricemultifull?fsyms={crypto_codes}&tsyms=USD,BTC'
@@ -131,15 +133,21 @@ def portfolio(request):
                 portfolio_to_send[position]['change_pct_since_purchase_usd'] =  round(((( portfolio_to_send[position]['usd_price'] / float(portfolio_to_send[position]['price_purchased_usd']) ) - 1) * 100), 2)
 
                 # Add to current portfolio value in USD
-                portfolio_overall['current_portfolio_value'] += usd_value
+                portfolio_overall['current_portfolio_value_usd'] += usd_value
 
-            portfolio_overall['return_overall_value_usd'] = round(portfolio_overall['current_portfolio_value'] - portfolio_overall['initial_portfolio_value'], 2)
-            portfolio_overall['return_overall_percent_usd'] = round(((portfolio_overall['current_portfolio_value'] / portfolio_overall['initial_portfolio_value'])-1)*100.0, 2)
+            portfolio_overall['current_portfolio_value_usd'] = Decimal(portfolio_overall['current_portfolio_value_usd']).quantize(Decimal(10) ** -2)
+            portfolio_overall['return_overall_percent_usd'] = round(((float(portfolio_overall['current_portfolio_value_usd']) / portfolio_overall['initial_portfolio_value_usd'])-1)*100.0, 2)
+            return_overall_percent_usd = portfolio_overall['return_overall_percent_usd']
+            portfolio_overall['return_overall_percent_usd'] = f'{return_overall_percent_usd}%'
 
             if request.is_ajax():
                 # also send portfolio_overall
-                portfolio_to_send['success'] = True
-                return JsonResponse(portfolio_to_send)
+                context = {
+                    'success': True,
+                    'portfolio_to_send': portfolio_to_send,
+                    'portfolio_overall': portfolio_overall
+                }
+                return JsonResponse(context)
             else:
                 context = {
                     'portfolio': portfolio_to_send,

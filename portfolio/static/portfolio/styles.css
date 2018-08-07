@@ -1,4 +1,4 @@
-#add-position-button, #logout-button {
+#add-position-button, #logout-button, #login-form-button #login-button-home, #logout-form-button #logout-button-home, #signup-form-button #signup-button-home, #portfolio-button {
   background-color: #110028;
   color: #09c416;
   height: 40px;
@@ -70,19 +70,68 @@ h1 {
 
 .home-feed {
   text-align: center;
-  margin-top: 10%; }
+  margin-top: 8%; }
   .home-feed .home-price {
-    list-style-type: none; }
+    list-style-type: none;
+    color: #09c416;
+    font-family: "Josefin Sans", sans-serif;
+    font-size: 130%; }
     .home-feed .home-price .home-data {
       margin-top: 10px; }
 
 #home-intro {
-  margin-top: 5%;
-  text-align: center; }
+  text-align: center;
+  margin-top: 5%; }
+
+.home-page-text {
+  color: white;
+  font-family: "Josefin Sans", sans-serif;
+  font-size: 350%;
+  font-weight: bold; }
 
 #project-name {
-  margin-top: 15px;
-  margin-left: 15px; }
+  margin-top: 25px;
+  margin-left: 25px;
+  display: inline-block; }
+
+#login-form-button {
+  display: inline-block;
+  float: right;
+  margin-top: 25px;
+  margin-right: 25px; }
+  #login-form-button #login-button-home {
+    font-weight: bold;
+    font-size: 120%; }
+  #login-form-button #login-button-home:hover {
+    background-color: #09c416;
+    color: #110028; }
+
+#logout-form-button {
+  display: inline-block;
+  float: right;
+  margin-top: 25px;
+  margin-right: 25px; }
+  #logout-form-button #logout-button-home {
+    font-weight: bold;
+    font-size: 120%; }
+  #logout-form-button #logout-button-home:hover {
+    background-color: #09c416;
+    color: #110028; }
+
+#signup-form-button {
+  display: inline-block;
+  float: right;
+  margin-top: 25px;
+  margin-right: 25px; }
+  #signup-form-button #signup-button-home {
+    font-weight: bold;
+    font-size: 120%; }
+  #signup-form-button #signup-button-home:hover {
+    background-color: #09c416;
+    color: #110028; }
+
+#home-background {
+  background-color: #110028; }
 
 .invalid {
   color: red; }
@@ -112,5 +161,18 @@ h1 {
   #portfolio-view thead th, #portfolio-view tbody td {
     width: 15.8%;
     text-align: left; }
+
+#portfolio-form-button {
+  text-align: center; }
+
+#portfolio-button {
+  width: 55%;
+  font-weight: bold;
+  font-size: 150%;
+  height: 45px; }
+
+#portfolio-button:hover {
+  background-color: #09c416;
+  color: #110028; }
 
 /*# sourceMappingURL=styles.css.map */

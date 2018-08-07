@@ -32,8 +32,11 @@
             <div class="row summary-feed">
                 <div class="col-md-4"><h2 id="user-heading">{{user.username}}</h2></div>
                 {% if overall %}
-                    <div class="col-md-4 summary-metric">${{overall.return_overall_value_usd}}</div>
-                    <div class="col-md-4 summary-metric">{{overall.return_overall_percent_usd}}%</div>
+                    <div id="current_portfolio_value_usd" class="col-md-4 summary-metric">${{overall.current_portfolio_value_usd}}</div>
+                    <div id="return_overall_percent_usd" class="col-md-4 summary-metric">{{overall.return_overall_percent_usd}}</div>
+                {% else %}
+                    <div id="current_portfolio_value_usd" class="col-md-4 summary-metric"></div>
+                    <div id="return_overall_percent_usd" class="col-md-4 summary-metric"></div>
                 {% endif %}
             </div>
         </div>

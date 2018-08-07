@@ -10,80 +10,73 @@
 {% endblock %}
 
 {% block body %}
+    <body id="home-background">
+        <h2 id="project-name" class="home-page-text">CryptoChief</h2>
 
-    <h2 id="project-name">CryptoChief</h2>
+        {% if user %}
+            <form id="logout-form-button" action="{% url 'logout' %}">
+                <button id="logout-button-home" type="submit" name="Logout" class="btn auth-button">Log out</button>
+            </form>
+        {% else %}
+            <form id="login-form-button" action="{% url 'login' %}">
+                <button id="login-button-home" type="submit" name="Login" class="btn auth-small">Log in</button>
+            </form>
+            <form id="signup-form-button" action="{% url 'signup' %}">
+                <button id="signup-button-home" type="submit" name="Signup" class="btn auth-small">Sign up</button>
+            </form>
+        {% endif %}
 
-    {% if user %}
-        <form action="{% url 'logout' %}">
-            <div id="logout-button-container-small" class="button-container-small">
-                <button id="logout-button" type="submit" name="Logout" class="btn btn-primary auth-button">Log out</button>
-            </div>
+        <h1 id="home-intro" class="home-page-text">Manage Your Crypto Assets</h1>
+
+        <form id="portfolio-form-button" action="{% url 'portfolio' %}">
+            {% csrf_token %}
+                <button id="portfolio-button" type="submit" name="Portfolio" class="btn">My Portfolio</button>
         </form>
-    {% else %}
-        <form action="{% url 'login' %}">
-            <div id="login-button-container-small" class="button-container-small">
-                <button id="login-button-small" type="submit" name="Login" class="btn btn-primary auth-small">Log in</button>
-            </div>
-        </form>
-        <form action="{% url 'signup' %}">
-            <div id="signup-button-container-small" class="button-container-small">
-                <button id="signup-button-small" type="submit" name="Signup" class="btn btn-primary auth-small">Sign up</button>
-            </div>
-        </form>
-    {% endif %}
 
-    <form action="{% url 'portfolio' %}">
-        {% csrf_token %}
-        <div id="portfolio-button-container" class="button-container-medium">
-            <button id="portfolio-button" type="submit" name="Portfolio" class="btn btn-primary">My Portfolio</button>
-        </div>
-    </form>
-
-    <h1 id="home-intro" class="heading">Manage Your Crypto Assets</h1>
-
-    <div class="container">
-        <div class="row home-feed">
-            <div class="col-md">
-                <ul class="home-price"> Bitcoin
-                    <li id="btc-price" class="home-data">${{btc.PRICE}}</li>
-                    <li id="btc-change-24h-pct">{{btc.CHANGEPCT24HOUR}}%</li>
-                    <li class="home-data">24h Change</li>
-                    <li id="btc-change-24h-usd">{{btc.CHANGE24HOUR}}</li>
-                    <li class="home-data">Market Cap</li>
-                    <li id="btc-mktcap">${{btc.MKTCAP}}</li>
-                </ul>
-            </div>
-            <div class="col-md">
-                <ul class="home-price"> Ethereum
-                    <li id="eth-price" class="home-data">${{eth.PRICE}}</li>
-                    <li id="eth-change-24h-pct">{{eth.CHANGEPCT24HOUR}}%</li>
-                    <li class="home-data">24h Change</li>
-                    <li id="eth-change-24h-usd">{{eth.CHANGE24HOUR}}</li>
-                    <li class="home-data">Market Cap</li>
-                    <li id="eth-mktcap">${{eth.MKTCAP}}</li>
-                </ul>
-            </div>
-            <div class="col-md">
-                <ul class="home-price"> Stellar Lumens
-                    <li id="xlm-price" class="home-data">${{xlm.PRICE}}</li>
-                    <li id="xlm-change-24h-pct">{{xlm.CHANGEPCT24HOUR}}%</li>
-                    <li class="home-data">24h Change</li>
-                    <li id="xlm-change-24h-usd">{{xlm.CHANGE24HOUR}}</li>
-                    <li class="home-data">Market Cap</li>
-                    <li id="xlm-mktcap">${{xlm.MKTCAP}}</li>
-                </ul>
-            </div>
-            <div class="col-md">
-                <ul class="home-price"> Zcash
-                    <li id="zec-price" class="home-data">${{zec.PRICE}}</li>
-                    <li id="zec-change-24h-pct">{{zec.CHANGEPCT24HOUR}}%</li>
-                    <li class="home-data">24h Change</li>
-                    <li id="zec-change-24h-usd">{{zec.CHANGE24HOUR}}</li>
-                    <li class="home-data">Market Cap</li>
-                    <li id="zec-mktcap">${{zec.MKTCAP}}</li>
-                </ul>
+        <div class="container">
+            <div class="row home-feed">
+                <div class="col-md">
+                    <ul class="home-price"> Bitcoin
+                        <li id="btc-price" class="home-data">${{btc.PRICE}}</li>
+                        <li id="btc-change-24h-pct">{{btc.CHANGEPCT24HOUR}}%</li>
+                        <li class="home-data">24h Change</li>
+                        <li id="btc-change-24h-usd">{{btc.CHANGE24HOUR}}</li>
+                        <li class="home-data">Market Cap</li>
+                        <li id="btc-mktcap">${{btc.MKTCAP}}</li>
+                    </ul>
+                </div>
+                <div class="col-md">
+                    <ul class="home-price"> Ethereum
+                        <li id="eth-price" class="home-data">${{eth.PRICE}}</li>
+                        <li id="eth-change-24h-pct">{{eth.CHANGEPCT24HOUR}}%</li>
+                        <li class="home-data">24h Change</li>
+                        <li id="eth-change-24h-usd">{{eth.CHANGE24HOUR}}</li>
+                        <li class="home-data">Market Cap</li>
+                        <li id="eth-mktcap">${{eth.MKTCAP}}</li>
+                    </ul>
+                </div>
+                <div class="col-md">
+                    <ul class="home-price"> Stellar Lumens
+                        <li id="xlm-price" class="home-data">${{xlm.PRICE}}</li>
+                        <li id="xlm-change-24h-pct">{{xlm.CHANGEPCT24HOUR}}%</li>
+                        <li class="home-data">24h Change</li>
+                        <li id="xlm-change-24h-usd">{{xlm.CHANGE24HOUR}}</li>
+                        <li class="home-data">Market Cap</li>
+                        <li id="xlm-mktcap">${{xlm.MKTCAP}}</li>
+                    </ul>
+                </div>
+                <div class="col-md">
+                    <ul class="home-price"> Zcash
+                        <li id="zec-price" class="home-data">${{zec.PRICE}}</li>
+                        <li id="zec-change-24h-pct">{{zec.CHANGEPCT24HOUR}}%</li>
+                        <li class="home-data">24h Change</li>
+                        <li id="zec-change-24h-usd">{{zec.CHANGE24HOUR}}</li>
+                        <li class="home-data">Market Cap</li>
+                        <li id="zec-mktcap">${{zec.MKTCAP}}</li>
+                    </ul>
+                </div>
             </div>
         </div>
-    </div>
+    </body>
 
 {% endblock %}

@@ -91,9 +91,12 @@ h1 {
 
 .home-feed {
     text-align: center;
-    margin-top: 10%;
+    margin-top: 8%;
     .home-price {
         list-style-type: none;
+        color: $my-green;
+        font-family: $font-stack;
+        font-size: 130%;
         .home-data {
             margin-top: 10px;
         }
@@ -101,13 +104,73 @@ h1 {
 }
 
 #home-intro {
-    margin-top: 5%;
     text-align: center;
+    margin-top: 5%;
+}
+
+.home-page-text {
+    color: white;
+    font-family: $font-stack;
+    font-size: 350%;
+    font-weight: bold;
 }
 
 #project-name {
-    margin-top: 15px;
-    margin-left: 15px;
+    margin-top: 25px;
+    margin-left: 25px;
+    display: inline-block;
+}
+
+#login-form-button {
+    display: inline-block;
+    float: right;
+    margin-top: 25px;
+    margin-right: 25px;
+    #login-button-home {
+        @extend %my-button;
+        font-weight: bold;
+        font-size: 120%;
+    }
+    #login-button-home:hover {
+        background-color: $my-green;
+        color: $dark-background;
+    }
+}
+
+#logout-form-button {
+    display: inline-block;
+    float: right;
+    margin-top: 25px;
+    margin-right: 25px;
+    #logout-button-home {
+        @extend %my-button;
+        font-weight: bold;
+        font-size: 120%;
+    }
+    #logout-button-home:hover {
+        background-color: $my-green;
+        color: $dark-background;
+    }
+}
+
+#signup-form-button {
+    display: inline-block;
+    float: right;
+    margin-top: 25px;
+    margin-right: 25px;
+    #signup-button-home {
+        @extend %my-button;
+        font-weight: bold;
+        font-size: 120%;
+    }
+    #signup-button-home:hover {
+        background-color: $my-green;
+        color: $dark-background;
+    }
+}
+
+#home-background {
+    background-color: $dark-background;
 }
 
 .invalid {
@@ -150,5 +213,21 @@ h1 {
 
 }
 
+#portfolio-form-button {
+    text-align: center;
+}
+
+#portfolio-button {
+    @extend %my-button;
+    width: 55%;
+    font-weight: bold;
+    font-size: 150%;
+    height: 45px;
+}
+
+#portfolio-button:hover {
+    background-color: $my-green;
+    color: $dark-background;
+}
 
 

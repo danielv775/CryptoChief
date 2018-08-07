@@ -18,6 +18,7 @@ document.addEventListener('DOMContentLoaded', () => {
         request.open('GET', '/');
         request.setRequestHeader('X-CSRFToken', csrftoken);
         request.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+        request.setRequestHeader('')
         request.onload = () => {
             const data = JSON.parse(request.responseText);
             if(data.success) {
@@ -48,6 +49,6 @@ document.addEventListener('DOMContentLoaded', () => {
         request.send();
     }
 
-    setInterval(get_crypto_data, 5000);
+    setInterval(get_crypto_data, 2000);
 
 });

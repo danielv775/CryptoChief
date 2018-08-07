@@ -22,6 +22,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
     }
 
+    function summary_gain_loss_formatting() {
+        if(document.querySelector('#return_overall_percent_usd').innerHTML[0] == '-') {
+            document.querySelector('#return_overall_percent_usd').style.color = '#ff2848';
+        }
+        else {
+            document.querySelector('#return_overall_percent_usd').style.color = '#09c416';
+        }
+    }
+
     function add_position() {
         // Validate the requested crypto code exists
         var code = document.querySelector('#code').value;
@@ -48,8 +57,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         console.log('Position stored in portfolio');
                         const position = template_position({'position': data});
                         document.querySelector('#portfolio-body').innerHTML += position;
-                        //only need to gain_loss on the one being added
-                        gain_loss_colors();
+                        update_portfolio_data();
                     }
                     else {
                         console.log('Position not stored in portfolio');
@@ -78,24 +86,29 @@ document.addEventListener('DOMContentLoaded', () => {
         request.onload = () => {
             const data = JSON.parse(request.responseText);
             if(data.success) {
-                delete data['success'];
                 console.log(data);
                 document.querySelector('#portfolio-body').innerHTML = '';
-                for(var position in data) {
-                    var refresh_position = data[position];
+                for(var position in data['portfolio_to_send']) {
+                    var refresh_position = data['portfolio_to_send'][position];
                     const refresh_position_to_add = template_position({'position': refresh_position});
                     document.querySelector('#portfolio-body').innerHTML += refresh_position_to_add;
                 }
                 gain_loss_colors();
+
+                // Update Summary Metrics
+                var return_overall_percent_usd = data['portfolio_overall']['return_overall_percent_usd'];
+                document.querySelector('#return_overall_percent_usd').innerHTML = return_overall_percent_usd;
+                var current_portfolio_value_usd = `$${data['portfolio_overall']['current_portfolio_value_usd']}`;
+                document.querySelector('#current_portfolio_value_usd').innerHTML = current_portfolio_value_usd;
+                summary_gain_loss_formatting();
             }
             else {
                 console.log('Crypto data request failed');
             }
         }
     }
-
+    summary_gain_loss_formatting();
     gain_loss_colors();
-
     setInterval(update_portfolio_data, 5000);
 
     // Bring up Form to enter crypto code, quantity, and price purchased in USD
