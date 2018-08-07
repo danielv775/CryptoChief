@@ -48,6 +48,8 @@ document.addEventListener('DOMContentLoaded', () => {
                         console.log('Position stored in portfolio');
                         const position = template_position({'position': data});
                         document.querySelector('#portfolio-body').innerHTML += position;
+                        //only need to gain_loss on the one being added
+                        gain_loss_colors();
                     }
                     else {
                         console.log('Position not stored in portfolio');

@@ -133,6 +133,7 @@ h1 {
     }
     tbody {
         height: 370px;
+        text-align: center;
         width: 100%;
     }
     tbody::-webkit-scrollbar {
@@ -142,9 +143,9 @@ h1 {
     tbody::-webkit-scrollbar-thumb {
         background: $my-green;
     }
-    tbody td, thead th {
-        text-align: center;
-        width: 14%;
+    thead th, tbody td {
+        width: 15.8%;
+        text-align: left;
     }
 
 }

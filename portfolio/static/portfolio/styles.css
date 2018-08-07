@@ -102,14 +102,15 @@ h1 {
     display: block; }
   #portfolio-view tbody {
     height: 370px;
+    text-align: center;
     width: 100%; }
   #portfolio-view tbody::-webkit-scrollbar {
     width: 10px;
     background-color: #b5ffb7; }
   #portfolio-view tbody::-webkit-scrollbar-thumb {
     background: #09c416; }
-  #portfolio-view tbody td, #portfolio-view thead th {
-    text-align: center;
-    width: 14%; }
+  #portfolio-view thead th, #portfolio-view tbody td {
+    width: 15.8%;
+    text-align: left; }
 
 /*# sourceMappingURL=styles.css.map */
