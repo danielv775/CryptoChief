@@ -6,6 +6,7 @@ import requests, json
 from django.http import JsonResponse
 from decimal import Decimal
 from django.views.decorators.vary import vary_on_headers
+from django.utils.cache import add_never_cache_headers
 # Create your views here.
 
 vary_on_headers('X-Requested-With')
@@ -53,7 +54,9 @@ def index(request):
                     'xlm': xlm,
                     'zec': zec
                 }
-                return JsonResponse(crypto_data)
+                response = JsonResponse(crypto_data)
+                add_never_cache_headers(response)
+                return response
             else:
                 context = {
                     'user': request.user,
@@ -72,7 +75,9 @@ def index(request):
                     'xlm': xlm,
                     'zec': zec
                 }
-                return JsonResponse(crypto_data)
+                response = JsonResponse(crypto_data)
+                add_never_cache_headers(response)
+                return response
             else:
                 context = {
                     'user': '',
@@ -83,6 +88,7 @@ def index(request):
                 }
                 return render(request, 'portfolio/index.html', context)
 
+vary_on_headers('X-Requested-With')
 def portfolio(request):
     if request.user.is_authenticated:
         if request.method == 'GET':
@@ -141,13 +147,14 @@ def portfolio(request):
             portfolio_overall['return_overall_percent_usd'] = f'{return_overall_percent_usd}%'
 
             if request.is_ajax():
-                # also send portfolio_overall
                 context = {
                     'success': True,
                     'portfolio_to_send': portfolio_to_send,
                     'portfolio_overall': portfolio_overall
                 }
-                return JsonResponse(context)
+                response = JsonResponse(context)
+                add_never_cache_headers(response)
+                return response
             else:
                 context = {
                     'portfolio': portfolio_to_send,

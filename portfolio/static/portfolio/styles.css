@@ -71,11 +71,15 @@ h1 {
 .home-feed {
   text-align: center;
   margin-top: 8%; }
+  .home-feed .asset-title {
+    color: white;
+    font-weight: bold;
+    font-size: 160%; }
   .home-feed .home-price {
     list-style-type: none;
     color: #09c416;
     font-family: "Josefin Sans", sans-serif;
-    font-size: 130%; }
+    font-size: 140%; }
     .home-feed .home-price .home-data {
       margin-top: 10px; }
 

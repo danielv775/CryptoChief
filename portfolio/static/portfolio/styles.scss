@@ -92,11 +92,16 @@ h1 {
 .home-feed {
     text-align: center;
     margin-top: 8%;
+    .asset-title {
+        color: white;
+        font-weight: bold;
+        font-size: 160%;
+    }
     .home-price {
         list-style-type: none;
         color: $my-green;
         font-family: $font-stack;
-        font-size: 130%;
+        font-size: 140%;
         .home-data {
             margin-top: 10px;
         }

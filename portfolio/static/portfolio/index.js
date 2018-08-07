@@ -7,7 +7,14 @@ document.addEventListener('DOMContentLoaded', () => {
         var usd_change_id = `#${token_string}-change-24h-usd`;
         var mktcap_id = `#${token_string}-mktcap`;
         document.querySelector(price_id).innerHTML = `$${token_data.PRICE}`;
-        document.querySelector(pct_change_id).innerHTML = `${token_data.CHANGEPCT24HOUR}%`;
+        var change_pct_24h = `${token_data.CHANGEPCT24HOUR}%`;
+        if(change_pct_24h[0] == '-') {
+            document.querySelector(pct_change_id).style.color = '#ff2848';
+        }
+        else {
+            change_pct_24h = `+${change_pct_24h}`;
+        }
+        document.querySelector(pct_change_id).innerHTML = change_pct_24h;
         document.querySelector(usd_change_id).innerHTML = token_data.CHANGE24HOUR;
         document.querySelector(mktcap_id).innerHTML = `$${token_data.MKTCAP}`;
     }
@@ -18,7 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
         request.open('GET', '/');
         request.setRequestHeader('X-CSRFToken', csrftoken);
         request.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
-        request.setRequestHeader('')
+        request.setRequestHeader('Vary', 'X-Requested-With');
         request.onload = () => {
             const data = JSON.parse(request.responseText);
             if(data.success) {
@@ -49,6 +56,7 @@ document.addEventListener('DOMContentLoaded', () => {
         request.send();
     }
 
+    get_crypto_data();
     setInterval(get_crypto_data, 2000);
 
 });

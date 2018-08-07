@@ -50,6 +50,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 request.open('POST', 'portfolio');
                 request.setRequestHeader('X-CSRFToken', csrftoken);
                 request.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+                request.setRequestHeader('Vary', 'X-Requested-With');
                 request.onload = () => {
                     const data = JSON.parse(request.responseText);
                     // Parse new position data and add to portfolio view
@@ -82,6 +83,7 @@ document.addEventListener('DOMContentLoaded', () => {
         request.open('GET', 'portfolio');
         request.setRequestHeader('X-CSRFToken', csrftoken);
         request.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+        request.setRequestHeader('Vary', 'X-Requested-With');
         request.send();
         request.onload = () => {
             const data = JSON.parse(request.responseText);
