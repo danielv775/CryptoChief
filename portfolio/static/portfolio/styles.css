@@ -1,33 +1,58 @@
-#add-position-button-container {
+#add-position-button, #logout-button {
+  background-color: #110028;
+  color: #09c416;
+  height: 40px;
+  font-family: "Josefin Sans", sans-serif; }
+
+#add-position-button {
+  width: 100%;
+  font-weight: bold; }
+
+#add-position-button:hover {
+  background-color: #09c416;
+  color: #110028; }
+
+.summary-feed {
+  text-align: center; }
+
+#logout-form {
   text-align: right;
-  margin-right: 10px;
-  margin-top: 15px; }
-  #add-position-button-container #add-position-button {
-    background-color: #b5ffb7;
-    color: #09c416;
-    width: 150px;
-    height: 40px; }
-  #add-position-button-container #add-position-button:hover {
-    background-color: #09c416;
-    color: #b5ffb7; }
+  margin-top: 10px;
+  margin-right: 10px; }
 
-body {
-  height: 100%;
-  overflow-y: hidden; }
+#logout-button {
+  width: 200px;
+  font-weight: bold; }
 
-#portfolio-heading {
-  margin-top: 15px; }
+#logout-button:hover {
+  background-color: #09c416;
+  color: #110028; }
+
+#user-heading {
+  color: white;
+  font-family: "Josefin Sans", sans-serif;
+  font-size: 350%;
+  font-weight: bold; }
+
+.summary-metric {
+  color: #09c416;
+  font-family: "Josefin Sans", sans-serif;
+  font-size: 350%;
+  font-weight: bold; }
+
+#portfolio-background {
+  background-color: #110028; }
 
 .my-thead {
-  background-color: #09c416;
-  color: #b5ffb7;
-  font-family: "Righteous", sans-serif;
+  background-color: #110028;
+  color: white;
+  font-family: "Josefin Sans", sans-serif;
   font-size: 140%; }
 
 .table-row-body {
-  background-color: #b5ffb7;
+  background-color: #110028;
   color: #09c416;
-  font-family: "Righteous", sans-serif;
+  font-family: "Josefin Sans", sans-serif;
   font-size: 130%; }
 
 .table-row-body:hover {
@@ -62,22 +87,28 @@ h1 {
 .invalid {
   color: red; }
 
-.portfolio-container #portfolio-view {
+.border-table td {
+  border-color: white; }
+
+.border-table th {
+  border: none; }
+
+#portfolio-view {
   width: 100%;
-  margin-top: 10px; }
-  .portfolio-container #portfolio-view #portfolio-header {
+  margin-top: 5%; }
+  #portfolio-view #portfolio-header {
     text-align: center; }
-  .portfolio-container #portfolio-view tbody, .portfolio-container #portfolio-view thead {
+  #portfolio-view tbody, #portfolio-view thead {
     display: block; }
-  .portfolio-container #portfolio-view tbody {
+  #portfolio-view tbody {
     height: 370px;
     width: 100%; }
-  .portfolio-container #portfolio-view tbody::-webkit-scrollbar {
+  #portfolio-view tbody::-webkit-scrollbar {
     width: 10px;
     background-color: #b5ffb7; }
-  .portfolio-container #portfolio-view tbody::-webkit-scrollbar-thumb {
+  #portfolio-view tbody::-webkit-scrollbar-thumb {
     background: #09c416; }
-  .portfolio-container #portfolio-view tbody td, .portfolio-container #portfolio-view thead th {
+  #portfolio-view tbody td, #portfolio-view thead th {
     text-align: center;
     width: 14%; }
 

@@ -89,6 +89,7 @@ def portfolio(request):
             if len(portfolio) == 0:
                 return render(request, 'portfolio/portfolio.html', {'user': request.user})
             portfolio_to_send = {}
+            portfolio_overall = {'initial_portfolio_value': 0, 'current_portfolio_value': 0}
             crypto_codes = ''
             # Prepare Crypto code string for API GET request and initialize actual data structure to be sent to
             # portfolio page--portfolio_to_send
@@ -96,7 +97,10 @@ def portfolio(request):
                 crypto_codes += position.crypto.code + ','
                 key = f'{position.crypto.code}-{position.id}'
                 portfolio_to_send[key] = {'name': position.crypto.name, 'code': position.crypto.code,
-                                          'quantity': position.quantity, 'price_purchased_usd': position.price_purchased_usd }
+                                          'quantity': position.quantity, 'price_purchased_usd': position.price_purchased_usd
+                }
+                initial_position_value = round(position.quantity * position.price_purchased_usd, 2)
+                portfolio_overall['initial_portfolio_value'] += float(initial_position_value)
 
             # GET live data
             api_request = f'https://min-api.cryptocompare.com/data/pricemultifull?fsyms={crypto_codes}&tsyms=USD,BTC'
@@ -125,12 +129,21 @@ def portfolio(request):
 
                 # Position Percent Change since Purchase in USD
                 portfolio_to_send[position]['change_pct_since_purchase_usd'] =  round(((( portfolio_to_send[position]['usd_price'] / float(portfolio_to_send[position]['price_purchased_usd']) ) - 1) * 100), 2)
+
+                # Add to current portfolio value in USD
+                portfolio_overall['current_portfolio_value'] += usd_value
+
+            portfolio_overall['return_overall_value_usd'] = round(portfolio_overall['current_portfolio_value'] - portfolio_overall['initial_portfolio_value'], 2)
+            portfolio_overall['return_overall_percent_usd'] = round(((portfolio_overall['current_portfolio_value'] / portfolio_overall['initial_portfolio_value'])-1)*100.0, 2)
+
             if request.is_ajax():
+                # also send portfolio_overall
                 portfolio_to_send['success'] = True
                 return JsonResponse(portfolio_to_send)
             else:
                 context = {
                     'portfolio': portfolio_to_send,
+                    'overall': portfolio_overall,
                     'user': request.user
                 }
                 return render(request, 'portfolio/portfolio.html', context)

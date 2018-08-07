@@ -1,41 +1,73 @@
 $my-green: #09c416;
 $my-light-green: #b5ffb7;
-$font-stack: 'Righteous', sans-serif;
+$dark-background: #110028;
+$font-stack: 'Josefin Sans', sans-serif;
 
-#add-position-button-container {
+%my-button {
+    background-color: $dark-background;
+    color: $my-green;
+    height: 40px;
+    font-family: $font-stack;
+}
+
+#add-position-button {
+    @extend %my-button;
+    width: 100%;
+    font-weight: bold;
+}
+#add-position-button:hover {
+    background-color: $my-green;
+    color: $dark-background;
+}
+
+.summary-feed {
+    text-align: center;
+}
+
+#logout-form {
     text-align: right;
+    margin-top: 10px;
     margin-right: 10px;
-    margin-top: 15px;
-    #add-position-button {
-        background-color: $my-light-green;
-        color: $my-green;
-        width: 150px;
-        height: 40px;
-    }
-    #add-position-button:hover {
-        background-color: $my-green;
-        color: $my-light-green;
-    }
 }
 
-body {
-    height: 100%;
-    overflow-y: hidden;
+#logout-button {
+    @extend %my-button;
+    width: 200px;
+    font-weight: bold;
 }
 
-#portfolio-heading {
-    margin-top: 15px;
+#logout-button:hover {
+    background-color: $my-green;
+    color: $dark-background;
+}
+
+#user-heading {
+    color: white;
+    font-family: $font-stack;
+    font-size: 350%;
+    font-weight: bold;
+}
+
+.summary-metric {
+    color: $my-green;
+    font-family: $font-stack;
+    font-size: 350%;
+    font-weight: bold;
+}
+
+#portfolio-background {
+    background-color: $dark-background;
 }
 
 .my-thead {
-    background-color: $my-green;
-    color: $my-light-green;
+    background-color: $dark-background;
+    color: white;
     font-family: $font-stack;
     font-size: 140%;
 }
 
 .table-row-body {
-    background-color: $my-light-green;
+    background-color: $dark-background;
     color: $my-green;
     font-family: $font-stack;
     font-size: 130%;
@@ -82,33 +114,40 @@ h1 {
     color: red;
 }
 
-.portfolio-container {
-    #portfolio-view {
-        width: 100%;
-        margin-top: 10px;
-        #portfolio-header {
-            text-align: center;
-        }
-        tbody, thead {
-            display: block;
-        }
-        tbody {
-            height: 370px;
-            width: 100%;
-        }
-        tbody::-webkit-scrollbar {
-            width: 10px;
-            background-color: $my-light-green;
-        }
-        tbody::-webkit-scrollbar-thumb {
-            background: $my-green;
-        }
-        tbody td, thead th {
-            text-align: center;
-            width: 14%;
-        }
 
-    }
+.border-table td {
+    border-color: white;
 }
+.border-table th {
+    border: none;
+}
+
+#portfolio-view {
+    width: 100%;
+    margin-top: 5%;
+    #portfolio-header {
+        text-align: center;
+    }
+    tbody, thead {
+        display: block;
+    }
+    tbody {
+        height: 370px;
+        width: 100%;
+    }
+    tbody::-webkit-scrollbar {
+        width: 10px;
+        background-color: $my-light-green;
+    }
+    tbody::-webkit-scrollbar-thumb {
+        background: $my-green;
+    }
+    tbody td, thead th {
+        text-align: center;
+        width: 14%;
+    }
+
+}
+
 
 
