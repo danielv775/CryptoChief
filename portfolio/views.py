@@ -117,13 +117,14 @@ def portfolio(request):
             for position in portfolio_to_send:
 
                 # Price of asset in USD and BTC
-                portfolio_to_send[position]['usd_price'] = round(crypto_portfolio_data[position.split('-')[0]]['USD']['PRICE'], 4)
+                usd_price = round(crypto_portfolio_data[position.split('-')[0]]['USD']['PRICE'], 4)
+                portfolio_to_send[position]['usd_price'] = '{:,}'.format(Decimal(usd_price).quantize(Decimal(10) ** -2))
                 portfolio_to_send[position]['btc_price'] = crypto_portfolio_data[position.split('-')[0]]['BTC']['PRICE']
 
                 # Value of position in USD and BTC
-                usd_value = round(portfolio_to_send[position]['usd_price'] *  float(portfolio_to_send[position]['quantity']), 2)
+                usd_value = round(usd_price *  float(portfolio_to_send[position]['quantity']), 2)
                 btc_value = round(portfolio_to_send[position]['btc_price'] *  float(portfolio_to_send[position]['quantity']), 2)
-                portfolio_to_send[position]['usd_value'] = usd_value
+                portfolio_to_send[position]['usd_value'] = '{:,}'.format(Decimal(usd_value).quantize(Decimal(10) ** -2))
                 portfolio_to_send[position]['btc_value'] = btc_value
 
                 # 24h Percent Change with respect to USD and BTC
@@ -131,11 +132,11 @@ def portfolio(request):
                 portfolio_to_send[position]['change_pct_24h_btc'] = round(crypto_portfolio_data[position.split('-')[0]]['BTC']['CHANGEPCT24HOUR'], 2)
 
                 # 24h Position Value Change in USD and BTC
-                portfolio_to_send[position]['change_value_24h_usd'] = round(portfolio_to_send[position]['usd_value'] * (portfolio_to_send[position]['change_pct_24h_usd']/100.0), 2)
+                portfolio_to_send[position]['change_value_24h_usd'] = '{:,}'.format(Decimal(usd_value * (portfolio_to_send[position]['change_pct_24h_usd']/100.0)).quantize(Decimal(10) ** -2))
                 portfolio_to_send[position]['change_value_24h_btc'] = round(portfolio_to_send[position]['btc_value'] * (portfolio_to_send[position]['change_pct_24h_btc']/100.0), 10)
 
                 # Position Percent Change since Purchase in USD
-                portfolio_to_send[position]['change_pct_since_purchase_usd'] =  round(((( portfolio_to_send[position]['usd_price'] / float(portfolio_to_send[position]['price_purchased_usd']) ) - 1) * 100), 2)
+                portfolio_to_send[position]['change_pct_since_purchase_usd'] =  '{:,}'.format(round(((( usd_price / float(portfolio_to_send[position]['price_purchased_usd']) ) - 1) * 100), 2))
 
                 # Add to current portfolio value in USD
                 portfolio_overall['current_portfolio_value_usd'] += usd_value

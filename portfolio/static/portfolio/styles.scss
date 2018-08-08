@@ -51,11 +51,46 @@ $font-stack: 'Josefin Sans', sans-serif;
     font-weight: bold;
 }
 
+#close-position-button {
+    background-color: white;
+    color: $my-red;
+    height: 40px;
+    font-family: $font-stack;
+    font-weight: bold;
+}
+
+#close-position-button:hover {
+    background-color: $my-red;
+    color: white;
+}
+
+#send-position-button {
+    background-color: white;
+    color: $my-green;
+    height: 40px;
+    font-family: $font-stack;
+    font-weight: bold;
+}
+
+#send-position-button:hover {
+    background-color: $my-green;
+    color: white;
+}
+
 @media (max-width: 481px) {
     #logout-button, #home-button {
         width: 150px;
     }
+    .hide-on-small-screen {
+        display: none;
+    }
 }
+@media (min-width: 482px) {
+    .hide-on-big-screen {
+        display: none;
+    }
+}
+
 
 #login-button, #signup-button {
     @extend %my-button;
@@ -141,6 +176,18 @@ h1 {
         font-size: 130%;
         color: $my-green;
     }
+}
+
+.add-position-label {
+    font-family: $font-stack;
+    font-size: 130%;
+    color: $dark-background;
+}
+
+.add-position-placeholder {
+    font-family: $font-stack;
+    font-size: 100%;
+    color: $dark-background;
 }
 
 .home-feed {

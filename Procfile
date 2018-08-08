@@ -1,0 +1,1 @@
+web: gunicorn cryptochief.wsgi --log-file -

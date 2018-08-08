@@ -35,9 +35,37 @@
   width: 200px;
   font-weight: bold; }
 
+#close-position-button {
+  background-color: white;
+  color: #ff2848;
+  height: 40px;
+  font-family: "Josefin Sans", sans-serif;
+  font-weight: bold; }
+
+#close-position-button:hover {
+  background-color: #ff2848;
+  color: white; }
+
+#send-position-button {
+  background-color: white;
+  color: #09c416;
+  height: 40px;
+  font-family: "Josefin Sans", sans-serif;
+  font-weight: bold; }
+
+#send-position-button:hover {
+  background-color: #09c416;
+  color: white; }
+
 @media (max-width: 481px) {
   #logout-button, #home-button {
-    width: 150px; } }
+    width: 150px; }
+
+  .hide-on-small-screen {
+    display: none; } }
+@media (min-width: 482px) {
+  .hide-on-big-screen {
+    display: none; } }
 #login-button, #signup-button {
   width: 100%;
   font-weight: bold;
@@ -104,6 +132,16 @@ h1 {
     font-family: "Josefin Sans", sans-serif;
     font-size: 130%;
     color: #09c416; }
+
+.add-position-label {
+  font-family: "Josefin Sans", sans-serif;
+  font-size: 130%;
+  color: #110028; }
+
+.add-position-placeholder {
+  font-family: "Josefin Sans", sans-serif;
+  font-size: 100%;
+  color: #110028; }
 
 .home-feed {
   text-align: center;

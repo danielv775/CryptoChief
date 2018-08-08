@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', () => {
         document.querySelectorAll('#data-percent-return-usd').forEach(td => {
            if(td.innerHTML[0] == '-') {
                td.style.color = '#ff2848';
-               td.parentNode.children[3].style.color = '#ff2848';
+               td.parentNode.children[4].style.color = '#ff2848';
            }
         });
 

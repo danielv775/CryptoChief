@@ -9,13 +9,14 @@
     <script id="load-position" type="text/template">
         {% verbatim %}
         <tr class="table-row-body">
-            <td>{{position.name}} ({{position.code}})</td>
+            <td class="hide-on-small-screen">{{position.name}} ({{position.code}})</td>
+            <td class="hide-on-big-screen">{{position.code}}</td>
             <td>${{position.usd_price}}</td>
-            <td>{{position.quantity}}</td>
+            <td class="hide-on-small-screen">{{position.quantity}}</td>
             <td id="data-usd-value">${{position.usd_value}}</td>
             <td id="data-change-pct-24h-usd">{{position.change_pct_24h_usd}}%</td>
-            <td id="data-change-value-24h-usd">{{position.change_value_24h_usd}}</td>
-            <td id="data-percent-return-usd">{{position.change_pct_since_purchase_usd}}%</td>
+            <td class="hide-on-small-screen" id="data-change-value-24h-usd">{{position.change_value_24h_usd}}</td>
+            <td class="hide-on-small-screen" id="data-percent-return-usd">{{position.change_pct_since_purchase_usd}}%</td>
         </tr>
         {% endverbatim %}
     </script>
@@ -46,7 +47,7 @@
           <div class="modal-dialog" role="document">
             <div class="modal-content">
               <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Add a Position to your Portfolio</h5>
+                <h5 class="modal-title add-position-label" id="exampleModalLabel">Add a Position to your Portfolio</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                   <span aria-hidden="true">&times;</span>
                 </button>
@@ -54,26 +55,26 @@
               <div class="modal-body">
                 <form>
                     <div class="form-group">
-                        <label class="field-label">3 Letter Crypto Code</label>
-                        <input type="text" id="code" name="crypto_code" class="form-control" placeholder="Enter Crypto Code (i.e. BTC for Bitcoin)">
+                        <label class="field-label add-position-label">3 Letter Crypto Code</label>
+                        <input type="text" id="code" name="crypto_code" class="form-control add-position-placeholder" placeholder="Enter Crypto Code (i.e. BTC for Bitcoin)">
                     </div>
                     <div class="form-group">
-                        <label class="field-label">Price Purchased (USD)</label>
-                        <input type="text" id="price_purchased_usd" name="crypto_price_purchased_usd" class="form-control" placeholder="Enter Price Purchased in USD">
+                        <label class="field-label add-position-label">Price Purchased (USD)</label>
+                        <input type="text" id="price_purchased_usd" name="crypto_price_purchased_usd" class="form-control add-position-placeholder" placeholder="Enter Price Purchased in USD">
                     </div>
                     <div class="form-group">
-                        <label class="field-label">Quantity</label>
-                        <input type="text" id="quantity" name="crypto_quantity" class="form-control" placeholder="Enter Quantity">
+                        <label class="field-label add-position-label">Quantity</label>
+                        <input type="text" id="quantity" name="crypto_quantity" class="form-control add-position-placeholder" placeholder="Enter Quantity">
                     </div>
                     <div class="form-group">
-                        <label class="field-label">Date Purchased</label>
-                        <input type="date" id="date_purchased" name="crypto_date_purchased" class="form-control" placeholder="Enter Date">
+                        <label class="field-label add-position-label">Date Purchased</label>
+                        <input type="date" id="date_purchased" name="crypto_date_purchased" class="form-control add-position-placeholder" placeholder="Enter Date">
                     </div>
                 </form>
               </div>
               <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="submit" id="send-position-button" data-dismiss="modal" class="btn btn-primary" name="add-new-position">Add</button>
+                <button type="button" id="close-position-button" class="btn" data-dismiss="modal">Close</button>
+                <button type="submit" id="send-position-button" data-dismiss="modal" class="btn" name="add-new-position">Add</button>
               </div>
             </div>
           </div>
@@ -84,27 +85,29 @@
                 <tr>
                     <th>Asset</th>
                     <th>Price (USD)</th>
-                    <th>Quantity</th>
+                    <th class="hide-on-small-screen">Quantity</th>
                     <th>Value (USD)</th>
                     <th>24h Percent Change (USD)</th>
-                    <th>24h Value Change (USD)</th>
-                    <th>Percent Return (USD)</th>
+                    <th class="hide-on-small-screen">24h Value Change (USD)</th>
+                    <th class="hide-on-small-screen">Percent Return (USD)</th>
                 </tr>
             </thead>
             <tbody id="portfolio-body">
                 {% for position, data in portfolio.items %}
                     <tr class="table-row-body">
-                        <td>{{data.name}} ({{data.code}})</td>
+                        <td class="hide-on-small-screen">{{data.name}} ({{data.code}})</td>
+                        <td class="hide-on-big-screen">{{data.code}}</td>
                         <td>${{data.usd_price}}</td>
-                        <td>{{data.quantity}}</td>
+                        <td class="hide-on-small-screen">{{data.quantity}}</td>
                         <td id="data-usd-value">${{data.usd_value}}</td>
                         <td id="data-change-pct-24h-usd">{{data.change_pct_24h_usd}}%</td>
-                        <td id="data-change-value-24h-usd">{{data.change_value_24h_usd}}</td>
-                        <td id="data-percent-return-usd">{{data.change_pct_since_purchase_usd}}%</td>
+                        <td class="hide-on-small-screen" id="data-change-value-24h-usd">{{data.change_value_24h_usd}}</td>
+                        <td class="hide-on-small-screen" id="data-percent-return-usd">{{data.change_pct_since_purchase_usd}}%</td>
                     </tr>
                 {% endfor %}
             </tbody>
         </table>
+
         <button id="add-position-button" type="button" data-toggle="modal" data-target="#add-position-modal" name="add-position" class="btn">
             Add Position
         </button>

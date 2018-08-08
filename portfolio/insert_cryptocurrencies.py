@@ -23,6 +23,11 @@ def main():
   with open('cryptocurrencies.json') as f:
     data = json.load(f)
 
+  '''
+  Get the upper bound ticker length
+  max_len = max([ len(code) for code, name in data.items() ])
+  print(max_len)
+  '''
   crypto_object_list = [ Crypto(name=name, code=code) for code, name in data.items() ]
   Crypto.objects.bulk_create(crypto_object_list)
 
