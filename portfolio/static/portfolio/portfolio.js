@@ -54,6 +54,9 @@ document.addEventListener('DOMContentLoaded', () => {
                td.style.color = '#ff2848';
                td.parentNode.children[5].style.color = '#ff2848';
            }
+           else {
+               td.innerHTML = `+${td.innerHTML}`;
+           }
         });
 
     }
@@ -64,6 +67,8 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         else {
             document.querySelector('#return_overall_percent_usd').style.color = '#09c416';
+            var return_overall_percent_usd = document.querySelector('#return_overall_percent_usd').innerHTML;
+            document.querySelector('#return_overall_percent_usd').innerHTML = `+${return_overall_percent_usd}`;
         }
     }
 
