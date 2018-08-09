@@ -137,13 +137,13 @@ document.addEventListener('DOMContentLoaded', () => {
             const data = JSON.parse(request.responseText);
             if(data.success) {
                 console.log('delete successful');
-                selected_positions = [];
                 var position_count = document.querySelector('#portfolio-body').childElementCount;
-                if(position_count == 1) {
+                if(selected_positions.length == position_count) {
                     document.querySelector('#portfolio-body').innerHTML = '';
                     document.querySelector('#current_portfolio_value_usd').innerHTML = '';
                     document.querySelector('#return_overall_percent_usd').innerHTML = '';
                 }
+                selected_positions = [];
                 update_portfolio_data();
             }
             else {
