@@ -3,6 +3,7 @@ const template_position = Handlebars.compile(document.querySelector('#load-posit
 document.addEventListener('DOMContentLoaded', () => {
 
     var selected_positions = [];
+    var allocation_data = [];
 
     function select_row() {
        document.querySelectorAll('#table-row-select').forEach(row => {
@@ -212,5 +213,13 @@ document.addEventListener('DOMContentLoaded', () => {
     document.querySelector('tbody').onmouseleave = () => {
         document.querySelector('tbody').style.overflowY = 'hidden';
     }
+
+    /*
+    Data to feed into Pie Chart library
+    document.querySelectorAll('#table-row-select').forEach(row => {
+       allocation_data.push([row.children[1].innerHTML , Number(row.children[5].innerHTML.replace(/[^0-9\.-]+/g,""))]);
+    });
+    */
+
 
 });
