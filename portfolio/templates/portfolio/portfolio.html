@@ -8,7 +8,8 @@
     {% load static %}
     <script id="load-position" type="text/template">
         {% verbatim %}
-        <tr class="table-row-body">
+        <tr id="table-row-select" class="table-row-body">
+            <td class="hidden">{{position.id}}</td>
             <td class="hide-on-small-screen">{{position.name}} ({{position.code}})</td>
             <td class="hide-on-big-screen">{{position.code}}</td>
             <td>${{position.usd_price}}</td>
@@ -94,7 +95,8 @@
             </thead>
             <tbody id="portfolio-body">
                 {% for position, data in portfolio.items %}
-                    <tr class="table-row-body">
+                    <tr id="table-row-select" class="table-row-body">
+                        <td class="hidden">{{data.id}}</td>
                         <td class="hide-on-small-screen">{{data.name}} ({{data.code}})</td>
                         <td class="hide-on-big-screen">{{data.code}}</td>
                         <td>${{data.usd_price}}</td>
@@ -111,6 +113,10 @@
         <button id="add-position-button" type="button" data-toggle="modal" data-target="#add-position-modal" name="add-position" class="btn">
             Add Position
         </button>
+        <button id="remove-position-button" type="button" name="remove-position" class="btn">
+            Remove Selected Positions
+        </button>
+
     </body>
 
 {% endblock %}

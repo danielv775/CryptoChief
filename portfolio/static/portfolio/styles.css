@@ -16,6 +16,18 @@
   background-color: #09c416;
   color: #110028; }
 
+#remove-position-button {
+  background-color: #110028;
+  color: #ff2848;
+  height: 40px;
+  font-family: "Josefin Sans", sans-serif;
+  width: 100%;
+  font-weight: bold; }
+
+#remove-position-button:hover {
+  background-color: #ff2848;
+  color: #110028; }
+
 .summary-feed {
   margin-top: 2%;
   text-align: center; }
@@ -251,5 +263,8 @@ h1 {
 #portfolio-button:hover {
   background-color: #09c416;
   color: #110028; }
+
+.hidden {
+  display: none; }
 
 /*# sourceMappingURL=styles.css.map */

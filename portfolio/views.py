@@ -7,6 +7,7 @@ from django.http import JsonResponse
 from decimal import Decimal
 from django.views.decorators.vary import vary_on_headers
 from django.utils.cache import add_never_cache_headers
+import json
 # Create your views here.
 
 vary_on_headers('X-Requested-With')
@@ -103,7 +104,7 @@ def portfolio(request):
             for position in portfolio:
                 crypto_codes += position.crypto.code + ','
                 key = f'{position.crypto.code}-{position.id}'
-                portfolio_to_send[key] = {'name': position.crypto.name, 'code': position.crypto.code,
+                portfolio_to_send[key] = {'id': position.id, 'name': position.crypto.name, 'code': position.crypto.code,
                                           'quantity': position.quantity, 'price_purchased_usd': position.price_purchased_usd
                 }
                 initial_position_value = round(position.quantity * position.price_purchased_usd, 2)
@@ -212,6 +213,12 @@ def portfolio(request):
                                     'change_pct_since_purchase_usd': change_pct_since_purchase_usd
                 }
                 return JsonResponse(position_to_send)
+            elif request.is_ajax() and request.POST['action'] == 'delete-positions':
+                positions_to_delete = request.POST['positions_to_delete'].split(',')
+                for position_id in positions_to_delete:
+                    position = Position.objects.get(id=position_id)
+                    position.delete()
+                return JsonResponse({'success': True})
         except Exception as e:
             return JsonResponse({'success': False})
     else:

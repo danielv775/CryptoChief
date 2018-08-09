@@ -27,6 +27,20 @@ $font-stack: 'Josefin Sans', sans-serif;
     color: $dark-background;
 }
 
+#remove-position-button {
+    background-color: $dark-background;
+    color: $my-red;
+    height: 40px;
+    font-family: $font-stack;
+    width: 100%;
+    font-weight: bold;
+}
+
+#remove-position-button:hover {
+    background-color: $my-red;
+    color: $dark-background;
+}
+
 .summary-feed {
     margin-top: 2%;
     text-align: center;
@@ -333,4 +347,6 @@ h1 {
     color: $dark-background;
 }
 
-
+.hidden {
+    display: none;
+}
