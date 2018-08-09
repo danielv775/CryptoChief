@@ -69,7 +69,9 @@ document.addEventListener('DOMContentLoaded', () => {
         else {
             document.querySelector('#return_overall_percent_usd').style.color = '#09c416';
             var return_overall_percent_usd = document.querySelector('#return_overall_percent_usd').innerHTML;
-            document.querySelector('#return_overall_percent_usd').innerHTML = `+${return_overall_percent_usd}`;
+            if(return_overall_percent_usd != '') {
+                document.querySelector('#return_overall_percent_usd').innerHTML = `+${return_overall_percent_usd}`;
+            }
         }
     }
 
